@@ -132,46 +132,10 @@
     
 </style>
 
-<div class="top-container">
-    <div class="search-container">
-        <input type="text" class="search-bar" id="searchBar" placeholder="Type job or keyword">
-        <button class="search-button" onclick="searchJobs()">Go</button>
-    </div>
-</div>
 
-<!-- Posts Listing -->
-<% if (posts && posts.length > 0) { %>
-    <% posts.forEach(post => { %>
-        <div class="job-posting">
-            <div class="profile-photo">
-                <img src="<%= post.profile_photo || '/images/default_profile_photo.jpg' %>" alt="Profile Photo">
-            </div>
-            <div class="job-details">
-                <h2 class="post"><%= post.title %></h2>
-                <p class="post"><strong>Posted By:</strong> <%= post.poster %></p>
-                <p class="post"><strong>Skills:</strong> <%= post.skills %></p>
-                <p class="post"><strong>Description:</strong> <%= post.content %></p>
-                <p class="post"><strong>Posted:</strong> <%= new Date(post.created_at).toLocaleDateString() %></p>
-                <% if (post.user_id === user.user_id) { %>
-                    <!-- Do not show invite button if the logged-in user is the poster -->
-                <% } else if (post.invitation_status === 'pending') { %>
-                    <p>Status: <strong>Pending</strong></p>
-                    <button disabled>Invitation Sent</button>
-                <% } else if (post.invitation_status === 'accepted') { %>
-                    <p>Status: <strong>Accepted</strong></p>
-                    <a href="/chat/<%= post.user_id %>">Chat</a>
-                <% } else { %>
-                    <button data-user-id="<%= post.user_id %>" data-post-id="<%= post.post_id %>" onclick="handleInviteClick(this)">Invite</button>
-                <% } %>
-            </div>
-        </div>
-    <% }) %>
-<% } else { %>
-    <p class="post">No posts found.</p>
-<% } %>
 
 <!-- Footer Section -->
-<footer>
+
     <div class="container">
         <div class="searchContainer">
             <input type="text" id="skillSearch" placeholder="Search by skill...">

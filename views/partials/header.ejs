@@ -25,13 +25,6 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
         
-        .logo img {
-            height: 50px;
-            width: 50px; /* Ensure the width and height are equal to create a round shape */
-            border-radius: 50%; /* Makes the image round */
-            object-fit: cover; /* Ensures the image fits within the circle */
-        }
-
         .logo a {
             color: white;
             font-size: 28px;
@@ -43,17 +36,13 @@
         .logo a:hover {
             transform: scale(1.1);
         }
+        
         .nav_links {
             list-style: none;
             display: flex;
             gap: 30px;
         }
         
-        .navbar h1 {
-            margin: 0 20px; /* Space between logo and title */
-            font-size: 1.8em; /* Adjust title size */
-            color: white; /* Title color */
-        }
         .nav_links li {
             position: relative;
         }
@@ -108,7 +97,6 @@
         .profile {
             position: relative;
             margin-left: auto;
-            margin-right: 20px;
         }
         
         #profilePhoto {
@@ -169,7 +157,7 @@
             margin-bottom: 15px;
         }
         
-        .sidebar ul li a{
+        .sidebar ul li a {
             color: white;
             text-decoration: none;
             font-size: 18px;
@@ -199,11 +187,62 @@
                 width: 100%;
             }
         }
-       .sidebar h2{
-        color:white
-       }
+
         /* Main Content Styles */
-      
+        main {
+            padding: 20px;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .hero h2 {
+            font-size: 2em;
+            margin: 10px 0;
+            color: #27374D; /* Title color */
+        }
+
+        .hero p {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+
+        .hero button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #27374D; /* Button background color */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .hero button:hover {
+            background-color: #9DB2BF; /* Button hover color */
+        }
+
+        .features, .testimonials {
+            margin: 20px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .features .feature {
+            margin: 10px 0;
+        }
+
+        .testimonials {
+            text-align: center;
+        }
+
+        .testimonials .testimonial {
+            margin: 20px 0;
+        }
 
         /* Footer Styles */
         footer {
@@ -228,16 +267,13 @@
             .navbar {
                 flex-direction: column;
                 align-items: flex-start;
-               
             }
 
             .nav_links {
-                list-style: none;
-                display: flex;
-                gap: 30px;
-                margin-left: 20px; /* Adjust this value to control the amount of shift to the right */
+                display: none;
+                flex-direction: column;
+                gap: 10px;
             }
-            
 
             .nav_links.active {
                 display: flex;
@@ -253,30 +289,6 @@
                 position: relative; /* Relative positioning */
             }
         }
-
-
-
-
-
-
-        .navbar .welcome {
-            color: white;
-            margin-right: 20px;
-            font-size: 16px;
-        }
-
-        .navbar .admin-dashboard {
-            color: white;
-            text-decoration: none;
-            padding: 10px 20px;
-            background-color: #4CAF50; /* Admin link color */
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-
-        .navbar .admin-dashboard:hover {
-            background-color: #45a049; /* Hover color */
-        }
     </style>
 </head>
 <body>
@@ -284,21 +296,15 @@
         <% if (user) { %>
             <nav class="navbar">
                 <div class="logo">
-                    <img src="images/skill.png" alt="SkillConnect">
+                    <a href="#">MyLogo</a>
+                    
                 </div>
                 <h1>SkillConnect</h1>
                 <ul class="nav_links">
-                    <li><a href="/">Home</a></li>
                     <li><a href="/about">About</a></li>
                     <li><a href="/services">Services</a></li>
                     <li><a href="/contact">Contact Us</a></li>
-                    <li><a href="/notifications">Notification</a></li>
                 </ul>
-
-
-
-              
-
                 <div class="profile">
                     <img id="profilePhoto" src="<%= user.profile_photo ? user.profile_photo.replace(/\\/g, '/') : '/images/default_profile_photo.jpg' %>" alt="Profile Photo">
                     <div class="dropdown-content" id="dropdown">
@@ -306,31 +312,21 @@
                         <a href="/logout">Logout</a>
                     </div>
                 </div>
-                <div class="container"></div>
-                    <nav class="sidebar" id="sidebar">
-                        <h2>Navigation</h2>
-                        <ul>
-                            <li><a href="/people">People</a></li>
-                            <li><a href="/showcase">Showcases</a></li>
-                            <li><a href="/post">Posts</a></li>
-                            <li><a href="/notification">Notifications</a></li>
-                        </ul>
-                    </nav>
-            
-                    <div class="content">
-                        <button class="hamburger" id="hamburger">
-                            &#9776; <!-- This is the hamburger icon -->
-                        </button>
-                        <h1>Welcome to My Page</h1>
-                        <p>This is the main content area.</p>
-                        <!-- More content can go here -->
-                    </div>
-                </div>
+                <button class="hamburger" id="hamburger">&#9776;</button>
+                <nav class="sidebar" id="sidebar">
+                    <h2>Navigation</h2>
+                    <ul>
+                        <li><a href="/people">People</a></li>
+                        <li><a href="/showcase">Showcases</a></li>
+                        <li><a href="/post">Posts</a></li>
+                        <li><a href="/notification">Notifications</a></li>
+                    </ul>
+                </nav>
             </nav>
         <% } else { %>
             <nav class="navbar">
                 <div class="logo">
-                    <img src="images/skill.png" alt="SkillConnect">
+                    <a href="#">MyLogo</a>
                 </div>
                 <ul class="nav_links">
                     <li><a href="/about">About</a></li>
@@ -343,6 +339,4 @@
         <% } %>
         
         
-    </header> 
-
-   
+    </header>
