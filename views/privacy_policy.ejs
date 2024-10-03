@@ -1,49 +1,116 @@
-
 <%- include("partials/header") -%>
-    <main>
-        <section class="hero">
-            <h2>Privacy Policy</h2>
-            <p>Your privacy is important to us. Please read our privacy policy carefully to understand how we collect, use, and protect your personal information.</p>
-        </section>
+<style>
+    /* Reset some default styles */
+    body, h2, p, ul, li {
+        margin: 0;
+        padding: 0;
+        list-style-type: none; /* Remove bullet points from lists */
+    }
 
-        <section class="content">
-            <h2>1. Introduction</h2>
-            <p>Welcome to SkillConnect! This Privacy Policy explains how we handle your personal information when you use our website and services.</p>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Use a modern font */
+        line-height: 1.6; /* Increase line height for readability */
+        background-color: #f0f4f8; /* Light background for the page */
+        color: #333; /* Darker text color */
+        /* Add padding to the body */
+    }
 
-            <h2>2. Information We Collect</h2>
-            <p>We collect information to provide better services to our users. The types of information we may collect include:</p>
-            <ul>
-                <li><strong>Personal Information:</strong> Name, email address, phone number, etc.</li>
-                <li><strong>Usage Data:</strong> Information on how you use our website and services.</li>
-                <li><strong>Cookies and Tracking Technologies:</strong> Data collected through cookies to improve your experience.</li>
-            </ul>
+    /* Hero Section */
+    .privacy {
+        background: linear-gradient(135deg, #27374D 0%, #4B9CD3 100%); /* Gradient background */
+        color: white; /* White text */
+        padding: 30px; /* Add more padding */
+        text-align: center; /* Center text */
+        border-radius: 8px; /* Rounded corners */
+        margin-bottom: 30px; /* Space below the hero section */
+        margin-top: 1px; /* Space above the hero section */
+    }
 
-            <h2>3. How We Use Your Information</h2>
-            <p>We use the information we collect for various purposes, including:</p>
-            <ul>
-                <li>Providing and improving our services.</li>
-                <li>Personalizing your experience.</li>
-                <li>Communicating with you about updates and offers.</li>
-            </ul>
+    /* Content Section */
+    .content {
+        max-width: 800px; /* Limit the width of the content */
+        margin: 20px auto; /* Center the content */
+        padding: 30px; /* Add padding */
+        background-color: white; /* White background for content */
+        border-radius: 8px; /* Rounded corners */
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2); /* Enhanced shadow for depth */
+    }
 
-            <h2>4. How We Protect Your Information</h2>
-            <p>We implement security measures to ensure your personal information is protected from unauthorized access or disclosure.</p>
+    /* Headings */
+    h2 {
+        margin: 20px 0; /* Margin around headings */
+        color: #27374D; /* Dark blue color for headings */
+        font-weight: 600; /* Slightly bolder headings */
+        border-bottom: 2px solid #4B9CD3; /* Underline for headings */
+        padding-bottom: 10px; /* Space below heading */
+    }
 
-            <h2>5. Sharing Your Information</h2>
-            <p>We do not sell or rent your personal information to third parties. We may share your information with trusted partners for specific purposes, such as:</p>
-            <ul>
-                <li>Service providers who assist in delivering our services.</li>
-                <li>Legal authorities when required by law.</li>
-            </ul>
+    /* Paragraphs */
+    p {
+        margin-bottom: 20px; /* Space below paragraphs */
+        line-height: 1.8; /* Increase line height for paragraphs */
+    }
+    
+    /* Lists */
+   
+   
 
-            <h2>6. Your Choices</h2>
-            <p>You have the right to access, correct, or delete your personal information. You can also opt-out of receiving promotional communications from us.</p>
+    /* Link styling */
+    a {
+        color: #4B9CD3; /* Match the link color with headings */
+        text-decoration: none; /* Remove underline */
+        transition: color 0.3s ease; /* Smooth transition for color change */
+    }
 
-            <h2>7. Changes to This Privacy Policy</h2>
-            <p>We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page.</p>
+    a:hover {
+        color: #27374D; /* Change color on hover */
+        text-decoration: underline; /* Underline on hover */
+    }
+</style>
+<main>
+    <section class="privacy">
+        <h2>Privacy Policy</h2>
+        <p>Your privacy is important to us. Please read our privacy policy carefully to understand how we collect, use, and protect your personal information.</p>
+    </section>
 
-            <h2>8. Contact Us</h2>
-            <p>If you have any questions or concerns about this Privacy Policy, please contact us at <a href="mailto:support@skillconnect.com">support@skillconnect.com</a>.</p>
-        </section>
-    </main>
-    <%- include("partials/footer") -%>
+    <section class="content">
+        <h2>1. Introduction</h2>
+        <p>Welcome to SkillConnect! This Privacy Policy explains how we handle your personal information when you use our website and services.</p>
+
+        <h2>2. Information We Collect</h2>
+        <p>We collect information to provide better services to our users. The types of information we may collect include:</p>
+        <ul>
+            <li><strong>Personal Information:</strong> Name, email address, phone number, etc.</li>
+            <li><strong>Usage Data:</strong> Information on how you use our website and services.</li>
+            <li><strong>Cookies and Tracking Technologies:</strong> Data collected through cookies to improve your experience.</li>
+        </ul>
+
+        <h2>3. How We Use Your Information</h2>
+        <p>We use the information we collect for various purposes, including:</p>
+        <ul>
+            <li>Providing and improving our services.</li>
+            <li>Personalizing your experience.</li>
+            <li>Communicating with you about updates and offers.</li>
+        </ul>
+
+        <h2>4. How We Protect Your Information</h2>
+        <p>We implement security measures to ensure your personal information is protected from unauthorized access or disclosure.</p>
+
+        <h2>5. Sharing Your Information</h2>
+        <p>We do not sell or rent your personal information to third parties. We may share your information with trusted partners for specific purposes, such as:</p>
+        <ul>
+            <li>Service providers who assist in delivering our services.</li>
+            <li>Legal authorities when required by law.</li>
+        </ul>
+
+        <h2>6. Your Choices</h2>
+        <p>You have the right to access, correct, or delete your personal information. You can also opt-out of receiving promotional communications from us.</p>
+
+        <h2>7. Changes to This Privacy Policy</h2>
+        <p>We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page.</p>
+
+        <h2>8. Contact Us</h2>
+        <p>If you have any questions or concerns about this Privacy Policy, please contact us at <a href="mailto:support@skillconnect.com">support@skillconnect.com</a>.</p>
+    </section>
+</main>
+<%- include("partials/footer") -%>

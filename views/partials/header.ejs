@@ -1,24 +1,304 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="">
     <title>About Us - SkillConnect</title>
+  
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #F4F4F4; /* Background color */
+            margin: 0;
+            padding: 0;
+        }
+        
+        /* Navbar Styles */
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 20px;
+            background-color: #27374D; /* Navbar background color */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .logo img {
+            height: 50px;
+            width: 50px; /* Ensure the width and height are equal to create a round shape */
+            border-radius: 50%; /* Makes the image round */
+            object-fit: cover; /* Ensures the image fits within the circle */
+        }
+
+        .logo a {
+            color: white;
+            font-size: 28px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: transform 0.3s;
+        }
+        
+        .logo a:hover {
+            transform: scale(1.1);
+        }
+        .nav_links {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+        
+        .navbar h1 {
+            margin: 0 20px; /* Space between logo and title */
+            font-size: 1.8em; /* Adjust title size */
+            color: white; /* Title color */
+        }
+        .nav_links li {
+            position: relative;
+        }
+        
+        .nav_links li a {
+            color: white;
+            text-decoration: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            transition: background 0.3s, color 0.3s;
+        }
+        
+        .nav_links li a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: #F4F4F4; /* Change link color on hover */
+        }
+        
+        /* Dropdown Styles */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+            border-radius: 5px;
+            margin-top: 10px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .profile:hover .dropdown-content {
+            display: block;
+            opacity: 1;
+        }
+        
+        .dropdown-content a {
+            color: #333;
+            padding: 10px 15px;
+            text-decoration: none;
+            display: block;
+        }
+        
+        .dropdown-content.show {
+            display: block; /* Show the dropdown */
+        }
+        .dropdown-content a:hover {
+            background-color: #F4F4F4; /* Dropdown item hover color */
+        }
+        
+        /* Profile Styles */
+        .profile {
+            position: relative;
+            margin-left: auto;
+            margin-right: 20px;
+        }
+        
+        #profilePhoto {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid white;
+            cursor: pointer;
+        }
+        
+        /* Hamburger Button */
+        .hamburger {
+            display: block;
+            background-color: transparent;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+    
+            .nav_links {
+                display: none;
+                flex-direction: column;
+                gap: 10px;
+            }
+    
+            .nav_links.active {
+                display: flex;
+            }
+        }
+        
+        /* Sidebar Navigation for Extra Content */
+        .sidebar {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            height: 100%;
+            width: 250px;
+            background-color: #27374D; /* Sidebar background color */
+            padding-top: 20px;
+            box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .sidebar ul {
+            list-style: none;
+            padding-left: 20px;
+        }
+        
+        .sidebar ul li {
+            margin-bottom: 15px;
+        }
+        
+        .sidebar ul li a{
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            transition: background 0.3s;
+        }
+        
+        .sidebar ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            padding-left: 10px;
+        }
+        
+        #sidebar.active {
+            display: block;
+        }
+        
+        .content {
+            margin-left: 250px;
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                margin-left: 0;
+            }
+    
+            #sidebar.active {
+                position: relative;
+                width: 100%;
+            }
+        }
+       .sidebar h2{
+        color:white
+       }
+        /* Main Content Styles */
+      
+
+        /* Footer Styles */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #27374D; /* Footer background color */
+            color: white;
+        }
+
+        footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+               
+            }
+
+            .nav_links {
+                list-style: none;
+                display: flex;
+                gap: 30px;
+                margin-left: 20px; /* Adjust this value to control the amount of shift to the right */
+            }
+            
+
+            .nav_links.active {
+                display: flex;
+            }
+
+            .content {
+                margin-left: 0;
+            }
+
+            .sidebar {
+                width: 100%; /* Full width sidebar */
+                height: auto; /* Auto height */
+                position: relative; /* Relative positioning */
+            }
+        }
+
+
+
+
+
+
+        .navbar .welcome {
+            color: white;
+            margin-right: 20px;
+            font-size: 16px;
+        }
+
+        .navbar .admin-dashboard {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            background-color: #4CAF50; /* Admin link color */
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .navbar .admin-dashboard:hover {
+            background-color: #45a049; /* Hover color */
+        }
+    </style>
 </head>
 <body>
     <header>
-        <h1>About SkillConnect</h1>
         <% if (user) { %>
             <nav class="navbar">
                 <div class="logo">
-                    <a href="#">MyLogo</a> <!-- Replace with your logo or image -->
+                    <img src="images/skill.png" alt="SkillConnect">
                 </div>
+                <h1>SkillConnect</h1>
                 <ul class="nav_links">
+                    <li><a href="/">Home</a></li>
                     <li><a href="/about">About</a></li>
                     <li><a href="/services">Services</a></li>
                     <li><a href="/contact">Contact Us</a></li>
+                    <li><a href="/notifications">Notification</a></li>
                 </ul>
+
+
+
+              
+
                 <div class="profile">
                     <img id="profilePhoto" src="<%= user.profile_photo ? user.profile_photo.replace(/\\/g, '/') : '/images/default_profile_photo.jpg' %>" alt="Profile Photo">
                     <div class="dropdown-content" id="dropdown">
@@ -26,37 +306,32 @@
                         <a href="/logout">Logout</a>
                     </div>
                 </div>
-                <div class="container"></div>
-                    <nav class="sidebar" id="sidebar">
-                        <h2>Navigation</h2>
-                        <ul>
-                            <li><a href="/people">People</a></li>
-                            <li><a href="/showcase">Showcases</a></li>
-                            <li><a href="/post">Posts</a></li>
-                        </ul>
-                    </nav>
-            
-                    <div class="content">
-                        <button class="hamburger" id="hamburger">
-                            &#9776; <!-- This is the hamburger icon -->
-                        </button>
-                        <h1>Welcome to My Page</h1>
-                        <p>This is the main content area.</p>
-                        <!-- More content can go here -->
-                    </div>
-                </div>
+                <button class="hamburger" id="hamburger">&#9776;</button>
+                <nav class="sidebar" id="sidebar">
+                    <h2>Navigation</h2>
+                    <ul>
+                        <li><a href="/people">People</a></li>
+                        <li><a href="/showcase">Showcases</a></li>
+                        <li><a href="/post">Posts</a></li>
+                    </ul>
+                </nav>
             </nav>
         <% } else { %>
-            <nav class="navbar"></nav>
+            <nav class="navbar">
                 <div class="logo">
-                    <a href="#">MyLogo</a>
+                    <img src="images/skill.png" alt="SkillConnect">
                 </div>
                 <ul class="nav_links">
                     <li><a href="/about">About</a></li>
                     <li><a href="/services">Services</a></li>
                     <li><a href="/contact">Contact Us</a></li>
                     <li><a href="/login">Login</a></li>
+                    <li><a href="/register">Register</a></li>
                 </ul>
             </nav>
         <% } %>
-    </header>
+        
+        
+    </header> 
+
+   

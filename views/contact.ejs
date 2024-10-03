@@ -1,16 +1,74 @@
 <%- include("partials/header") -%>
-    <main>
-        <section>
-            <h2>Get in Touch</h2>
-            <form class="contact_form" action="/contact" method="POST">
-                <label for="name">Name:</label>
-                <input type="text" id="name" name="name" required>
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-                <label for="message">Message:</label>
-                <textarea id="message" name="message" rows="5" required></textarea>
-                <button type="submit">Send Message</button>
-            </form>
-        </section>
-    </main>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+    }
+    
+    /* Adjusting the nav and footer styles */
+   
+    
+    footer {
+        margin-top: 10px; /* Decrease space above the footer */
+    }
+
+    main {
+        max-width: 600px; /* Center the main content */
+        margin: 20px auto; /* Add some vertical spacing above and below */
+        background: white; /* Background color of the form */
+        padding: 40px; /* Adjust padding for a balanced layout */
+        border-radius: 8px; /* Rounded corners */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    }
+    
+    h2.contact {
+        text-align: center; /* Center the heading */
+        color: #27374D; /* Heading color */
+        margin-bottom: 20px; /* Space below the heading */
+    }
+    
+    .contact_form {
+        display: flex;
+        flex-direction: column; /* Stack form elements */
+    }
+    
+    label {
+        margin: 10px 0 5px; /* Space above and below labels */
+    }
+    
+    input, textarea {
+        padding: 10px;
+        border: 1px solid #ccc; /* Border style */
+        border-radius: 4px; /* Rounded corners for inputs */
+    }
+    
+    button {
+        margin-top: 15px; /* Space above button */
+        padding: 10px;
+        background-color: #27374D; /* Button background color */
+        color: white; /* Button text color */
+        border: none; /* Remove default border */
+        border-radius: 4px; /* Rounded corners */
+        cursor: pointer; /* Pointer on hover */
+    }
+    
+    button:hover {
+        background-color: #1f2a3f; /* Darker button color on hover */
+    }
+</style>
+<main>
+    <section>
+        <h2 class="contact">Get in Touch</h2>
+        <form class="contact_form" action="/contact" method="POST">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+    </section>
+</main>
 <%- include("partials/footer") -%>

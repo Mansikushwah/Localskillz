@@ -1,8 +1,60 @@
 <%- include("partials/header") -%>
-    <main>
-        <section class="services">
-            <h2>Our Mission</h2>
-            <p>At SkillConnect, we aim to bridge the gap between skilled professionals and clients looking for expertise. Our platform offers a seamless experience for both skill seekers and providers.</p>
-        </section>
-    </main>
+<style>
+    body {
+        font-family: Arial, sans-serif; /* Overall font for the body */
+        background-color: #f4f4f4; /* Light gray background for the whole page */
+        margin: 0; /* Remove default margin */
+        display: flex; /* Flexbox for layout */
+        flex-direction: column; /* Stack items vertically */
+        min-height: 100vh; /* Full height for body */
+    }
+
+    main {
+        flex: 1; /* Allow main to grow and fill available space */
+        max-width: 800px; /* Center the main content */
+        margin: 20px auto; /* Add vertical spacing */
+        background: white; /* Background color of the section */
+        padding: 40px; /* Padding inside the section */
+        border-radius: 8px; /* Rounded corners */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        transition: box-shadow 0.3s; /* Smooth transition for shadow */
+    }
+
+    main:hover {
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Darker shadow on hover */
+    }
+
+    h2.service { /* Styling specifically for h2 with class 'service' */
+        text-align: center; /* Center the heading */
+        color: #27374D; /* Heading color */
+        margin-bottom: 20px; /* Space below the heading */
+        font-size: 28px; /* Larger font size for heading */
+        text-transform: uppercase; /* Uppercase for emphasis */
+    }
+
+    p.service { /* Styling specifically for p with class 'service' */
+        line-height: 1.6; /* Improve readability */
+        color: #555; /* Text color */
+        text-align: justify; /* Justify the text */
+        margin-top: 10px; /* Space above the paragraph */
+        font-size: 16px; /* Standard font size */
+        padding: 10px; /* Padding for paragraph */
+        border-left: 4px solid #27374D; /* Left border for emphasis */
+        background-color: #f9f9f9; /* Light background for the paragraph */
+    }
+
+    /* Services section styling */
+    .services {
+        padding: 20px; /* Inner padding for the section */
+        border-radius: 8px; /* Rounded corners */
+        background-color: #fafafa; /* Light background color for the section */
+    }
+</style>
+
+<main>
+    <section class="services">
+        <h2 class="service">Our Mission</h2>
+        <p class="service">At SkillConnect, we aim to bridge the gap between skilled professionals and clients looking for expertise. Our platform offers a seamless experience for both skill seekers and providers.</p>
+    </section>
+</main>
 <%- include("partials/footer") -%>

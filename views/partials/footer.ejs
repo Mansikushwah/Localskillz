@@ -1,16 +1,143 @@
 <footer>
-    <h3>SkillConnect</h3>
-    <p>&copy; 2024 SkillConnect. All rights reserved.</p>
-    <a href="/contact">Contact</a> | <a href="/privacy">Privacy Policy</a>
+    <p>&copy; 2024 SkillConnect. All Rights Reserved.</p>
+    <p>
+        <a href="/privacy">Privacy Policy</a>
+        <a href="/terms">Terms of Service</a>
+    </p>
 </footer>
 <% if (user) { %>
-    <script >
-        const sidebar = document.getElementById('sidebar');
+    
+        
+  
+    <!-- <script>
+
+
+      
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.getElementById('hamburger');
+            const navLinks = document.querySelector('.nav_links');
+            const sidebar = document.getElementById('sidebar');
+
+            hamburger.addEventListener('click', function() {
+                navLinks.classList.toggle('active'); // Show/hide links
+                sidebar.classList.toggle('active');  // Show/hide sidebar
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const profilePhoto = document.getElementById('profilePhoto');
+            const dropdown = document.getElementById('dropdown');
+        
+            profilePhoto.addEventListener('click', function(event) {
+                event.stopPropagation(); // Prevent the click from closing the dropdown immediately
+                dropdown.classList.toggle('show'); // Toggle dropdown visibility
+        
+                // Optional: Add a delay to automatically hide the dropdown after a certain time
+                setTimeout(() => {
+                    if (dropdown.classList.contains('show')) {
+                        dropdown.classList.remove('show'); // Hide after delay if still shown
+                    }
+                }, 5000); // 5000 milliseconds = 5 seconds
+            });
+        
+            // Close dropdown when clicking outside of it
+            document.addEventListener('click', function() {
+                dropdown.classList.remove('show'); // Hide dropdown
+            });
+        });
+        
+
+
+
+
+
+
+
         const hamburger = document.getElementById('hamburger');
+        const sidebar = document.getElementById('sidebar');
+    
+        // Toggle sidebar visibility on hamburger click
         hamburger.addEventListener('click', () => {
-            sidebar.classList.toggle('show');
+            sidebar.classList.toggle('active');
+        });
+    
+        // Close the sidebar if clicking outside of it
+        document.addEventListener('click', (event) => {
+            const isClickInsideSidebar = sidebar.contains(event.target);
+            const isClickInsideHamburger = hamburger.contains(event.target);
+    
+            if (!isClickInsideSidebar && !isClickInsideHamburger) {
+                sidebar.classList.remove('active'); // Close the sidebar
+            }
+        });
+    </script> -->
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.getElementById('hamburger');
+            const navLinks = document.querySelector('.nav_links');
+            const sidebar = document.getElementById('sidebar');
+            const profilePhoto = document.getElementById('profilePhoto');
+            const dropdown = document.getElementById('dropdown');
+    
+            // Toggle navbar links and sidebar visibility on hamburger click
+            hamburger.addEventListener('click', function(event) {
+                event.stopPropagation(); // Prevent event from propagating and triggering the document click listener
+                navLinks.classList.toggle('active'); // Show/hide links
+                sidebar.classList.toggle('active');  // Show/hide sidebar
+            });
+    
+            // Handle profile photo click for dropdown toggle
+            profilePhoto.addEventListener('click', function(event) {
+                event.stopPropagation(); // Prevent click from closing the dropdown immediately
+                dropdown.classList.toggle('show'); // Toggle dropdown visibility
+    
+                // Optional: Add a delay to automatically hide the dropdown after 5 seconds
+                setTimeout(() => {
+                    if (dropdown.classList.contains('show')) {
+                        dropdown.classList.remove('show'); // Hide after delay if still shown
+                    }
+                }, 5000); // 5000 milliseconds = 5 seconds
+            });
+    
+            // Close dropdown when clicking outside of it
+            document.addEventListener('click', function() {
+                dropdown.classList.remove('show'); // Hide dropdown when clicking outside
+            });
+    
+            // Close the sidebar if clicking outside of it
+            document.addEventListener('click', function(event) {
+                const isClickInsideSidebar = sidebar.contains(event.target);
+                const isClickInsideHamburger = hamburger.contains(event.target);
+    
+                if (!isClickInsideSidebar && !isClickInsideHamburger) {
+                    sidebar.classList.remove('active'); // Close the sidebar if click is outside
+                    navLinks.classList.remove('active'); // Also hide navbar links
+                }
+            });
         });
     </script>
-     <% } %>
+    
+  
+    <% } %>
 </body>
 </html>

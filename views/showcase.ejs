@@ -1,13 +1,126 @@
 <%- include("partials/header") -%>
-    <!-- Main Content Section -->
-    <main>
-        <div class="container">
-            <div class="search-container">
-                <input type="text" id="skillSearch" placeholder="Search by skill...">
-                <button id="searchBtn">Search</button>
-            </div>
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        display: flex; /* Use flexbox for the layout */
+        flex-direction: column; /* Stack items vertically */
+        min-height: 100vh; /* Ensure body takes full height */
+        padding: 0; /* Remove default padding */
+    }
+    
+    h1, h2 {
+        color: #D4A373;
+        text-align: center; /* Center align headings */
+        margin-bottom: 20px; /* Space below headings */
+    }
 
-            <div id="showcaseContainer">
+    .showcase img {
+        width: 100%;
+        max-width: 100px; /* Smaller width for images */
+        height: auto;
+        display: block;
+        margin: 10px auto; /* Center align images */
+    }
+
+    .skills {
+        margin-top: 20px;
+        font-style: italic;
+        color: #555;
+        text-align: center; /* Center align skills */
+    }
+    
+    /* Main Container Styles */
+    .container {
+        max-width: 1200px; /* Limit the maximum width */
+        margin: 0 auto; /* Center the container */
+        padding: 20px; /* Add padding for better spacing */
+        background-color: #fff; /* White background for the main content */
+        border-radius: 10px; /* Rounded corners for the container */
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+        margin-top: 10px;
+    }
+
+    /* Search Container Styles */
+    .search-container {
+        margin-bottom: 20px;
+        display: flex; /* Flexbox for layout */
+        align-items: center; /* Center align items vertically */
+        justify-content: center; /* Center align container */
+    }
+    
+    #skillSearch {
+        flex: 1; /* Allow the input to take available space */
+        padding: 10px; /* Add padding for better aesthetics */
+        border: 1px solid #ccc; /* Add a border */
+        border-radius: 5px; /* Rounded corners */
+        font-size: 16px; /* Increase font size */
+    }
+    
+    #searchBtn {
+        padding: 10px 15px; /* Add padding */
+        margin-left: 10px; /* Spacing between input and button */
+        background-color: #27374D; /* Button background color */
+        color: white; /* Button text color */
+        border: none; /* Remove border */
+        border-radius: 5px; /* Rounded corners */
+        cursor: pointer; /* Change cursor to pointer on hover */
+        font-size: 16px; /* Increase font size */
+        transition: background-color 0.3s; /* Smooth transition */
+    }
+    
+    #searchBtn:hover {
+        background-color: #27374D; /* Darken button on hover */
+    }
+    
+    .showcase-wrapper {
+        display: flex; /* Use flexbox for showcases */
+        flex-wrap: wrap; /* Allow wrapping to new line */
+        justify-content: flex-start; /* Align items to the left */
+        gap: 20px; /* Space between showcase boxes */
+    }
+
+    .showcase {
+        flex: 0 1 calc(25% - 20px); /* Each showcase takes up about a quarter of the row */
+        border: 1px solid #E0E0E0; /* Light border around each showcase */
+        border-radius: 5px; /* Rounded corners */
+        padding: 15px; /* Padding inside each showcase */
+        box-sizing: border-box; /* Include padding and border in the element's total width and height */
+        background-color: #ffffff; /* White background for showcases */
+        transition: transform 0.3s, box-shadow 0.3s; /* Smooth transitions for hover effects */
+    }
+
+    .showcase:hover {
+        transform: translateY(-5px); /* Lift effect on hover */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Shadow effect on hover */
+    }
+    
+    .details {
+        margin-top: 10px; /* Spacing between title and details */
+        color: #333; /* Darker text for details */
+    }
+
+    .details span {
+        display: block; /* Display each detail on a new line */
+    }
+
+    /* Ensure footer is at the bottom */
+    footer {
+        margin-top: auto; /* Push the footer to the bottom */
+    }
+</style>
+
+<!-- Main Content Section -->
+<main>
+    <div class="container">
+        <div class="search-container">
+            <input type="text" id="skillSearch" placeholder="Search by skill...">
+            <button id="searchBtn">Search</button>
+        </div>
+
+        <div id="showcaseContainer">
+            <div class="showcase-wrapper"> <!-- Wrapper for showcases -->
                 <% showcases.forEach(showcase => { %>
                     <div class="showcase">
                         <img src="<%= showcase.image_url %>" alt="<%= showcase.title %>">
@@ -22,20 +135,20 @@
                 <% }) %>
             </div>
         </div>
-    </main>
-    <%- include("partials/footer") -%>
+    </div>
+</main>
+<%- include("partials/footer") -%>
 
+<script>
+    document.getElementById('searchBtn').addEventListener('click', function() {
+        const searchTerm = document.getElementById('skillSearch').value.toLowerCase();
+        const showcases = document.querySelectorAll('#showcaseContainer .showcase');
 
-    <script>
-        document.getElementById('searchBtn').addEventListener('click', function() {
-            const searchTerm = document.getElementById('skillSearch').value.toLowerCase();
-            const showcases = document.querySelectorAll('#showcaseContainer .showcase');
-
-            showcases.forEach(showcase => {
-                const skill = showcase.querySelector('.details span:nth-child(2)').innerText.toLowerCase();
-                showcase.style.display = skill.includes(searchTerm) ? 'block' : 'none';
-            });
+        showcases.forEach(showcase => {
+            const skill = showcase.querySelector('.details span:nth-child(2)').innerText.toLowerCase();
+            showcase.style.display = skill.includes(searchTerm) ? 'block' : 'none';
         });
-    </script>
+    });
+</script>
 </body>
 </html>

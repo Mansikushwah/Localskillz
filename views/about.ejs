@@ -1,19 +1,106 @@
-    <%- include("partials/header") -%>
-    <main>
-        <section class="mission">
-            <h2>Our Mission</h2>
-            <p>At SkillConnect, we aim to bridge the gap between skilled professionals and clients looking for expertise. Our platform offers a seamless experience for both skill seekers and providers.</p>
-        </section>
-        <section class="team">
-            <h2>Our Team</h2>
-            <% team_members.forEach(member => { %>
-                <div class="team_member">
-                    <img id="member_photo" src="<%= member.profile_picture ? member.profile_picture  : '/images/default_profile_photo.jpg' %>" alt="<%= member.name %>">
+<%- include("partials/header") -%>
+<style>
+    /* Main Content Styles */
+    main {
+        padding: 20px;
+        max-width: 1200px; /* Limit max width for better readability */
+        margin: 0 auto; /* Center align the main content */
+    }
+
+    /* Mission Section Styles */
+    .mission {
+        background-color: #F9F9F9; /* Light background color */
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        margin-bottom: 30px; /* Spacing between sections */
+    }
+
+    .mission h2 {
+        font-size: 2em;
+        color: #27374D; /* Title color */
+        margin-bottom: 10px; /* Spacing below title */
+    }
+
+    .mission p {
+        font-size: 1.1em;
+        color: #333; /* Text color */
+        line-height: 1.6; /* Line height for readability */
+    }
+
+    /* Team Section Styles */
+    .team {
+        background-color: #F9F9F9; /* Same light background */
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .team h2 {
+        font-size: 2em;
+        color: #27374D; /* Title color */
+        margin-bottom: 20px; /* Spacing below title */
+    }
+
+    .team_member {
+        display: flex;
+        align-items: center; /* Center align items vertically */
+        margin-bottom: 15px; /* Spacing between team members */
+        padding: 10px; /* Padding around each team member */
+        border: 1px solid #E0E0E0; /* Light border */
+        border-radius: 5px; /* Rounded corners */
+        background-color: white; /* White background for team members */
+        transition: box-shadow 0.3s; /* Transition effect for hover */
+    }
+
+    .team_member:hover {
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Shadow effect on hover */
+    }
+
+    #member_photo {
+        width: 60px; /* Fixed size for member photo */
+        height: 60px; /* Fixed size for member photo */
+        border-radius: 50%; /* Circular photo */
+        margin-right: 15px; /* Spacing to the right of the photo */
+        border: 2px solid #27374D; /* Border color */
+    }
+
+    .team_member h3 {
+        font-size: 1.5em;
+        color: #27374D; /* Name color */
+        margin: 0; /* Reset margin */
+    }
+
+    .team_member p {
+        color: #777; /* Email color */
+        margin: 0; /* Reset margin */
+    }
+
+    /* New style for name and email alignment */
+    .team_member_info {
+        display: flex;
+        flex-direction: column; /* Stack items vertically */
+        justify-content: center; /* Center vertically */
+    }
+</style>
+
+<main>
+    <section class="mission">
+        <h2>Our Mission</h2>
+        <p>At SkillConnect, we aim to bridge the gap between skilled professionals and clients looking for expertise. Our platform offers a seamless experience for both skill seekers and providers.</p>
+    </section>
+    <section class="team">
+        <h2>Our Team</h2>
+        <% team_members.forEach(member => { %>
+            <div class="team_member">
+                <img id="member_photo" src="<%= member.profile_picture ? member.profile_picture : '/images/default_profile_photo.jpg' %>" alt="<%= member.name %>">
+                <div class="team_member_info">
                     <h3><%= member.name %></h3>
                     <p><%= member.email %></p>
                 </div>
-            <% }) %>
-        </section>
-    </main>
-    
-    <%- include("partials/footer") -%>
+            </div>
+        <% }) %>
+    </section>
+</main>
+
+<%- include("partials/footer") -%>

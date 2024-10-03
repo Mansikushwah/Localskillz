@@ -1,30 +1,87 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notifications</title>
-    <link rel="stylesheet" href="/styles.css">
-</head>
-<body>
-    <!-- Header Section -->
-    <header>
-        <h1>SkillConnect</h1>
-        <div>
-            <% if (user) { %>
-                <p>Hello, <%= user.username %>! <a href="/logout">Logout</a></p>
-                <a href="/profile">Profile</a>
-                <a href="/search">Showcases</a>
-                <a href="/notifications">Notifications</a>
-            <% } else { %>
-                <a href="/">Home</a>
-                <a href="/login">Login</a>
-                <a href="/register">Register</a>
-                <a href="/about">About Us</a>
-            <% } %>
-        </div>
-    </header>
+<%- include("partials/header") -%>
+<style>
+    /* Set the body and html to take the full height of the viewport */
+/* Set the body and html to take the full height of the viewport */
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, sans-serif; /* Use a clean font */
+    background-color: #f4f4f9; /* Light background color for the body */
+}
 
+/* Ensure the header stays at the top */
+
+
+/* Style the main section */
+main {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center; /* Center the content horizontally */
+}
+
+/* Notification title styling */
+main h2 {
+    margin-bottom: 20px;
+    color: #333;
+    font-size: 24px;
+}
+
+/* Notification box styling */
+.notification {
+    background-color: #fafafa;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 600px; /* Set max width to prevent overly wide containers */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Notification text styling */
+.notification p {
+    margin: 10px 0;
+    font-size: 16px;
+    color: #555;
+}
+
+/* Buttons styling */
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-right: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Chat button */
+a button {
+    background-color: #28a745;
+}
+
+a button:hover {
+    background-color: #218838;
+}
+
+/* Footer should always stay at the bottom */
+
+
+
+/* Footer should always stay at the bottom */
+
+</style>
     <!-- Notifications -->
     <main>
         <h2>Notifications</h2>
@@ -53,11 +110,7 @@
     </main>
 
     <!-- Footer Section -->
-    <footer>
-        <h3>SkillConnect</h3>
-        <p>&copy; 2024 SkillConnect. All rights reserved.</p>
-        <a href="/about">About Us</a> | <a href="/contact">Contact</a> | <a href="/privacy">Privacy Policy</a>
-    </footer>
+    <%- include("partials/footer") -%>
 
     <script>
         // Handle form submission with AJAX

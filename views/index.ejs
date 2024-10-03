@@ -1,4 +1,60 @@
     <%- include("partials/header") -%>
+    <style>
+        main {
+            padding: 20px;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .hero h2 {
+            font-size: 2em;
+            margin: 10px 0;
+            color: #27374D; /* Title color */
+        }
+
+        .hero p {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+
+        .hero button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #27374D; /* Button background color */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .hero button:hover {
+            background-color: #9DB2BF; /* Button hover color */
+        }
+
+        .features, .testimonials {
+            margin: 20px 0;
+            padding: 20px;
+            background: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .features .feature {
+            margin: 10px 0;
+        }
+
+        .testimonials {
+            text-align: center;
+        }
+
+        .testimonials .testimonial {
+            margin: 20px 0;
+        }
+    </style>
     <main>
         <section class="hero">
             <h2>Connect with Skilled Professionals</h2>

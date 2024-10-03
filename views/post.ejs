@@ -1,84 +1,218 @@
 <%- include("partials/header") -%>
-    <!-- Search and Job Listings -->
-    <div class="top-container">
-        <div class="search-container">
-            <input type="text" class="search-bar" id="searchBar" placeholder="Type job or keyword">
-            <button class="search-button" onclick="searchJobs()">Go</button>
-        </div>
-    </div>
+<style>
+    body {
+        font-family: Arial, sans-serif; /* Overall font for the body */
+        background-color: #f4f4f4; /* Light gray background for the whole page */
+        margin: 0; /* Remove default margin */
+        display: flex; /* Flexbox for layout */
+        flex-direction: column; /* Stack items vertically */
+        min-height: 100vh; /* Full height for body */
+    }
 
-    <!-- Posts Listing -->
-    <% if (posts && posts.length > 0) { %>
-        <% posts.forEach(post => { %>
-            <div class="job-posting">
-                <div class="profile-photo">
-                    <img src="<%= post.profile_photo || '/images/default_profile_photo.jpg' %>" alt="Profile Photo">
-                </div>
-                <div class="job-details">
-                    <h2><%= post.title %></h2>
-                    <p><strong>Posted By:</strong> <%= post.poster %></p>
-                    <p><strong>Skills:</strong> <%= post.skills %></p>
-                    <p><strong>Description:</strong> <%= post.content %></p>
-                    <p><strong>Posted:</strong> <%= new Date(post.created_at).toLocaleDateString() %></p>
-                    <% if (post.user_id === user.user_id) { %>
-                        <!-- Do not show invite button if the logged-in user is the poster -->
-                    <% } else if (post.invitation_status === 'pending') { %>
-                        <p>Status: <strong>Pending</strong></p>
-                        <button disabled>Invitation Sent</button>
-                    <% } else if (post.invitation_status === 'accepted') { %>
-                        <p>Status: <strong>Accepted</strong></p>
-                        <a href="/chat/<%= post.user_id %>">Chat</a>
-                    <% } else { %>
-                        <button data-user-id="<%= post.user_id %>" data-post-id="<%= post.post_id %>" onclick="handleInviteClick(this)">Invite</button>
-                    <% } %>
-                </div>
-            </div>
-        <% }) %>
-    <% } else { %>
-        <p>No posts found.</p>
-    <% } %>
+    .top-container {
+        padding: 20px; /* Spacing for the top container */
+        background-color: #ffffff; /* White background for the header */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        margin-top: 5px;
+        
+    }
+
+    .search-container {
+        display: flex; /* Flexbox for search bar layout */
+        justify-content: center; /* Center items horizontally */
+        margin: 5px 0; /* Space above and below the search bar */
+        /* Adjust this value to increase the gap between header and search container */
+    }
     
-    <!-- Footer Section -->
+
+    .search-bar {
+        padding: 10px; /* Padding inside the search bar */
+        border: 1px solid #ccc; /* Border styling */
+        border-radius: 4px; /* Rounded corners */
+        width: 300px; /* Fixed width for the search bar */
+    }
+
+    .search-button {
+        padding: 10px 15px; /* Padding for the button */
+        margin-left: 10px; /* Space between the search bar and button */
+        border: none; /* No border */
+        background-color: #27374D; /* Button background color */
+        color: white; /* Text color */
+        border-radius: 4px; /* Rounded corners */
+        cursor: pointer; /* Pointer cursor on hover */
+    }
+
+    .search-button:hover {
+        background-color: #1d2a4d; /* Darker shade on hover */
+    }
+
+    /* Posts Listing */
+    .job-posting {
+        display: flex; /* Flexbox for job posting layout */
+        margin: 15px auto; /* Center the job posting with automatic margins */
+        background-color: white; /* Background color for job postings */
+        border-radius: 8px; /* Rounded corners */
+        padding: 20px; /* Padding inside job posting */
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        max-width: 600px; /* Set a maximum width to prevent it from covering the entire body */
+        width: 100%; /* Allow it to take full width up to max-width */
+    }
+    
+    /* Optional: Add responsiveness */
+    @media (max-width: 768px) {
+        .job-posting {
+            padding: 15px; /* Adjust padding for smaller screens */
+        }
+    }
+    
+
+    .profile-photo {
+        margin-right: 20px; /* Space to the right of the profile photo */
+    }
+
+    .profile-photo img {
+        width: 80px; /* Fixed width for the profile photo */
+        height: 80px; /* Fixed height for the profile photo */
+        border-radius: 50%; /* Circular profile photo */
+    }
+
+    .job-details {
+        flex: 1; /* Allow job details to grow */
+    }
+    
+    h2.post {
+        margin: 0 0 10px; /* Margin below the heading */
+        font-size: 20px; /* Font size for job title */
+        color: #27374D; /* Color for job title */
+    }
+
+    p.post {
+        margin: 5px 0; /* Space above and below paragraphs */
+        color: #555; /* Text color */
+    }
+
+    /* Footer Section */
+    footer {
+        margin-top: auto; /* Push footer to the bottom */
+        padding: 10px; /* Padding for the footer */
+        background-color: #27374D; /* Footer background color */
+        color: white; /* Footer text color */
+        text-align: center; /* Center text in footer */
+    }
+    .btn {
+        padding: 10px 15px; /* Common padding for all buttons */
+        border: none; /* No border */
+        border-radius: 4px; /* Rounded corners */
+        color: white; /* Text color */
+        cursor: pointer; /* Pointer cursor on hover */
+        transition: background-color 0.3s; /* Smooth transition for background color */
+    }
+    
+    .btn-invite {
+        background-color: #27374D; /* Invite button background color */
+    }
+    
+    .btn-invite:hover {
+        background-color: #1d2a4d; /* Darker shade on hover */
+    }
+    
+    .btn-disabled {
+        background-color: #ccc; /* Background color for disabled button */
+        color: #666; /* Text color for disabled button */
+        cursor: not-allowed; /* Change cursor to not-allowed */
+    }
+    
+    .btn-accepted {
+        background-color: #4CAF50; /* Accepted button background color (green) */
+    }
+    
+    .btn-accepted:hover {
+        background-color: #45a049; /* Darker shade on hover for accepted button */
+    }
+    
+</style>
+
+<div class="top-container">
+    <div class="search-container">
+        <input type="text" class="search-bar" id="searchBar" placeholder="Type job or keyword">
+        <button class="search-button" onclick="searchJobs()">Go</button>
+    </div>
+</div>
+
+<!-- Posts Listing -->
+<% if (posts && posts.length > 0) { %>
+    <% posts.forEach(post => { %>
+        <div class="job-posting">
+            <div class="profile-photo">
+                <img src="<%= post.profile_photo || '/images/default_profile_photo.jpg' %>" alt="Profile Photo">
+            </div>
+            <div class="job-details">
+                <h2 class="post"><%= post.title %></h2>
+                <p class="post"><strong>Posted By:</strong> <%= post.poster %></p>
+                <p class="post"><strong>Skills:</strong> <%= post.skills %></p>
+                <p class="post"><strong>Description:</strong> <%= post.content %></p>
+                <p class="post"><strong>Posted:</strong> <%= new Date(post.created_at).toLocaleDateString() %></p>
+                <% if (post.user_id === user.user_id) { %>
+                    <!-- Do not show invite button if the logged-in user is the poster -->
+                <% } else if (post.invitation_status === 'pending') { %>
+                    <p>Status: <strong>Pending</strong></p>
+                    <button disabled>Invitation Sent</button>
+                <% } else if (post.invitation_status === 'accepted') { %>
+                    <p>Status: <strong>Accepted</strong></p>
+                    <a href="/chat/<%= post.user_id %>">Chat</a>
+                <% } else { %>
+                    <button data-user-id="<%= post.user_id %>" data-post-id="<%= post.post_id %>" onclick="handleInviteClick(this)">Invite</button>
+                <% } %>
+            </div>
+        </div>
+    <% }) %>
+<% } else { %>
+    <p class="post">No posts found.</p>
+<% } %>
+
+<!-- Footer Section -->
+<footer>
     <%- include("partials/footer") -%>
+</footer>
 
-    <script>
-        // Function to search for jobs
-        function searchJobs() {
-            const searchTerm = document.getElementById('searchBar').value;
-            window.location.href = `/post?q=${encodeURIComponent(searchTerm)}`;
-        }
+<script>
+    // Function to search for jobs
+    function searchJobs() {
+        const searchTerm = document.getElementById('searchBar').value;
+        window.location.href = `/post?q=${encodeURIComponent(searchTerm)}`;
+    }
 
-        // Function to handle the invite button click
-        function handleInviteClick(buttonElement) {
-            const userId = buttonElement.getAttribute('data-user-id');
-            const postId = buttonElement.getAttribute('data-post-id');
-            sendInvitation(userId, postId, buttonElement);
-        }
-        
-        // Function to send an invitation
-        async function sendInvitation(userId, postId, buttonElement) {
-            try {
-                const response = await fetch('/invite', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ receiverId: userId, postId: postId })
-                });
-                const data = await response.json();
-        
-                if (response.ok) {
-                    alert(data.message); // Display the server response message
-                    buttonElement.textContent = 'Pending';
-                    buttonElement.disabled = true;
-                } else {
-                    alert('Failed to send invitation: ' + data.error || 'Unknown error');
-                }
-            } catch (error) {
-                console.error('Error sending invitation:', error);
-                alert('Failed to send invitation');
+    // Function to handle the invite button click
+    function handleInviteClick(buttonElement) {
+        const userId = buttonElement.getAttribute('data-user-id');
+        const postId = buttonElement.getAttribute('data-post-id');
+        sendInvitation(userId, postId, buttonElement);
+    }
+    
+    // Function to send an invitation
+    async function sendInvitation(userId, postId, buttonElement) {
+        try {
+            const response = await fetch('/invite', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ receiverId: userId, postId: postId })
+            });
+            const data = await response.json();
+    
+            if (response.ok) {
+                alert(data.message); // Display the server response message
+                buttonElement.textContent = 'Pending';
+                buttonElement.disabled = true;
+            } else {
+                alert('Failed to send invitation: ' + data.error || 'Unknown error');
             }
+        } catch (error) {
+            console.error('Error sending invitation:', error);
+            alert('Failed to send invitation');
         }
-    </script>
+    }
+</script>
 </body>
 </html>
