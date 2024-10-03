@@ -1,8 +1,18 @@
     <%- include("partials/header") -%>
     <style>
-        main {
-            padding: 20px;
-        }
+         html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    main {
+        padding: 2vw;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        background-color: #F4F4F4;
+    }
 
         .hero {
             text-align: center;
@@ -10,19 +20,19 @@
         }
 
         .hero h2 {
-            font-size: 2em;
-            margin: 10px 0;
+            font-size: 3vw;
+            margin: 1vh 0;
             color: #27374D; /* Title color */
         }
 
         .hero p {
-            font-size: 1.2em;
-            margin-bottom: 20px;
+            font-size: 1.8vw;
+        margin-bottom: 3vh;
         }
 
         .hero button {
-            padding: 10px 20px;
-            font-size: 16px;
+            padding: 1vw 2vw;
+        font-size: 1.6vw;
             background-color: #27374D; /* Button background color */
             color: white;
             border: none;
@@ -36,15 +46,15 @@
         }
 
         .features, .testimonials {
-            margin: 20px 0;
-            padding: 20px;
+            margin: 5vh 0;
+        padding: 2vw;
             background: white;
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
         .features .feature {
-            margin: 10px 0;
+            margin: 2vh 0;
         }
 
         .testimonials {
@@ -52,8 +62,30 @@
         }
 
         .testimonials .testimonial {
-            margin: 20px 0;
+            margin: 4vh 0;
         }
+        @media (max-width: 768px) {
+        .hero h2 {
+            font-size: 5vw;
+        }
+
+        .hero p {
+            font-size: 4vw;
+        }
+
+        .hero button {
+            padding: 2vw 4vw;
+            font-size: 3vw;
+        }
+
+        .features, .testimonials {
+            padding: 5vw;
+        }
+
+        .testimonials .testimonial {
+            margin: 8vw 0;
+        }
+    }
     </style>
     <main>
         <section class="hero">

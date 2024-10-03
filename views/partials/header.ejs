@@ -38,10 +38,14 @@
         }
         
         .nav_links {
-            list-style: none;
-            display: flex;
-            gap: 30px;
-        }
+    list-style: none;
+    display: flex;
+    gap: 1vw;
+    margin-left: auto; /* Push the links to the rightmost */
+    margin-right: 1vw; /* Add space between links and profile */
+}
+
+
         
         .nav_links li {
             position: relative;
@@ -95,9 +99,10 @@
         
         /* Profile Styles */
         .profile {
-            position: relative;
-            margin-left: auto;
-        }
+    display: flex;
+    align-items: center;
+    margin-right: 1vw; /* Optional: Adjust as needed for spacing */
+}
         
         #profilePhoto {
             width: 40px;

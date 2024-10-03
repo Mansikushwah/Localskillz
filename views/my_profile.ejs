@@ -1,682 +1,311 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Page</title>
-    <link rel="stylesheet" href="/styles.css">
-    <style>
-        /* General styling */
-/* General Styles */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-    line-height: 1.6;
+<%- include("partials/header") -%>
+
+<style>
+    /* Apply styles only within #mainContent */
+    #mainContent {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background-color: #F4F4F4;
+        margin-top: 3vh; /* Space between header and main content */
+        overflow-x: hidden; /* Hide horizontal overflow */
+    }
+
+    #mainContent main {
+        padding: 2vw;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start; /* Align content to the top */
+        align-items: center; /* Center horizontally */
+        background-color: #F4F4F4;
+    }
+
+    #mainContent .profile {
+        width: 100%; /* Ensure the entire profile takes up the full width */
+        display: flex;
+        flex-direction: column; /* Arrange sections in a column */
+        gap: 20px; /* Add space between each section */
+    }
+
+    #mainContent .profileHeader,
+    #mainContent .skills,
+    #mainContent .showcases,
+    #mainContent .posts {
+        width: 100%; /* Full width of the page */
+        max-width: 1200px; /* Optional: Limit the max width to prevent extreme stretch on large screens */
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        display: flex; /* Use flexbox for layout */
+        flex-direction: column; /* Stack children vertically */
+    }
+
+    /* Profile Photo Styles */
+    #mainContent .profilePhoto {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 2px solid #DDD;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+    }
+
+    #mainContent .profilePhoto img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+
+    /* Profile Details */
+    #mainContent .profileDetails {
+        flex-grow: 1;
+        margin-left: 20px;
+    }
+
+    #mainContent .profileDetails .name {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    #mainContent .profileDetails .availability {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+
+    #mainContent .profileDetails .rating {
+        font-size: 16px;
+        color: #f39c12;
+    }
+
+    /* General Button Styles */
+    /* General Button Styles for all buttons */
+button {
+    background-color: #27374D;
+    color: white;
+    padding: 5px 15px; /* Same padding as Add Post */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px; /* Adjust font size to match Add Post */
+    transition: background-color 0.3s;
 }
 
-.container {
-    width: 90%;
-    margin: 0 auto;
-    padding: 20px;
+button:hover {
+    background-color: #1f2e3d;
 }
-
-/* Skills Section */
 .skills {
-    margin-bottom: 30px;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
 }
 
-.skills h3 {
-    margin-bottom: 15px;
-    color: #333;
-    font-size: 24px;
+.skills button {
+    position: absolute;
+    right: 1.2vw; /* Adjust the value to control distance from the right edge */
+     /* Align the button to the bottom of the content */
+     bottom: 1.3vw;
+}
+/* Specifically targeting Add Skill button */
+.skills button {
+    padding: 5px 15px; /* Same as Add Post */
+    font-size: 14px; /* Adjust font size */
+    align-self: flex-end; /* Align to the right */
 }
 
-.skillsRow {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
+/* Specifically targeting Add Showcase button */
+.showcases button {
+    padding: 5px 15px; /* Same as Add Post */
+    font-size: 14px; /* Adjust font size */
+    align-self: flex-end; /* Align to the right */
 }
 
-.skillItem {
-    background-color: #e7f3fe;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: calc(50% - 10px); /* Two per row */
-}
-
-.skillItem span {
-    font-size: 16px;
-    color: #333;
-}
-
-.removeSkill {
-    background-color: #ff4d4d;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-    border-radius: 3px;
-    transition: background-color 0.3s ease;
-}
-
-.removeSkill:hover {
-    background-color: #cc0000;
-}
-
-.addSkill {
-    display: inline-block;
-    margin-top: 10px;
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-}
-
-.addSkill:hover {
-    background-color: #45a049;
-}
-
-/* Showcases Section */
-.showcases {
-    margin-bottom: 30px;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.showcases h3 {
-    margin-bottom: 15px;
-    color: #333;
-    font-size: 24px;
-}
-
-.showcaseGrid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-}
-
-.showcaseItem {
-    background-color: #f9f9f9;
-    padding: 15px;
-    border-radius: 5px;
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
-    width: calc(33% - 20px); /* Three per row */
-}
-
-.showcaseItem span {
-    font-weight: bold;
-    display: block;
-    margin-bottom: 10px;
-    font-size: 18px;
-    color: #333;
-}
-
-.showcaseItem img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 5px;
-    margin-bottom: 10px;
-}
-
-.removeShowcase {
-    background-color: #ff4d4d;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-    border-radius: 3px;
-    transition: background-color 0.3s ease;
-}
-
-.removeShowcase:hover {
-    background-color: #cc0000;
-}
-
-#addShowcaseBtn {
-    margin-top: 15px;
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-}
-
-#addShowcaseBtn:hover {
-    background-color: #45a049;
-}
-
-/* Modal Styles */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    overflow: auto;
-}
-
-.modalContent {
-    background-color: white;
-    margin: 10% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 500px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-}
-
-.modal h2 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.close:hover,
-.close:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-#addShowcaseForm {
-    display: flex;
-    flex-direction: column;
-}
-
-#addShowcaseForm label {
-    margin-bottom: 8px;
-    font-weight: bold;
-}
-
-#addShowcaseForm input[type="text"],
-#addShowcaseForm textarea,
-#addShowcaseForm select {
-    margin-bottom: 15px;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-#addShowcaseForm button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-}
-
-#addShowcaseForm button:hover {
-    background-color: #45a049;
-}
-
-/* post area */
-/* Posts Section */
-.posts {
-    margin-bottom: 30px;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.posts h3 {
-    margin-bottom: 15px;
-    color: #333;
-    font-size: 24px;
-}
-
-.postGrid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-}
-
-.postItem {
-    background-color: #f9f9f9;
-    padding: 15px;
-    border-radius: 5px;
-    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
-    width: calc(33% - 20px); /* Three per row */
-    margin-bottom: 15px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.postItem h4 {
-    font-weight: bold;
-    margin-bottom: 10px;
-    font-size: 18px;
-    color: #333;
-}
-
-.postItem div {
-    margin-bottom: 15px;
-    color: #555;
+/* Ensuring the Add Post button remains consistent */
+.posts button {
+    padding: 5px 15px; /* Keep the same as the other buttons */
     font-size: 14px;
 }
 
-.removePost {
-    background-color: #ff4d4d;
-    color: white;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-    border-radius: 3px;
-    transition: background-color 0.3s ease;
-    align-self: flex-end;
-}
 
-.removePost:hover {
-    background-color: #cc0000;
-}
-
-.addPost {
-    display: inline-block;
-    margin-top: 10px;
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-}
-
-.addPost:hover {
-    background-color: #45a049;
-}
-
-/* Modal Styles for Posts */
-#addPostModal .modalContent {
-    background-color: white;
-    margin: 10% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
-    max-width: 500px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-}
-
-#addPostModal h2 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-#addPostModal .close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-#addPostModal .close:hover,
-#addPostModal .close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-#addPostForm {
-    display: flex;
-    flex-direction: column;
-}
-
-#addPostForm input[type="text"],
-#addPostForm textarea,
-#addPostForm select {
-    margin-bottom: 15px;
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
-#addPostForm textarea {
-    height: 100px;
-    resize: none;
-}
-
-#addPostForm button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-}
-
-#addPostForm button:hover {
-    background-color: #45a049;
-}
-
-/* Responsive Design for Posts */
-@media (max-width: 768px) {
-    .postGrid {
-        flex-direction: column;
+    /* Specific Button Styles */
+    #mainContent .editProfile,
+    #mainContent .addSkill,
+    #mainContent .addPost,
+    #mainContent .addShowcase {
+        align-self: flex-end; /* Align buttons to the right */
     }
 
-    .postItem {
+    /* Remove button styles */
+    #mainContent .removeSkill,
+    #mainContent .removeShowcase,
+    #mainContent .removePost {
+        background-color: #ff4d4d;
+    }
+
+    #mainContent .removeSkill:hover,
+    #mainContent .removeShowcase:hover,
+    #mainContent .removePost:hover {
+        background-color: #cc0000;
+    }
+
+    /* Modal styles */
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
         width: 100%;
-    }
-
-    #addPostModal .modalContent {
-        width: 90%;
-    }
-}
-
-/* Profile Header Section */
-.profileHeader {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-}
-
-/* Profile Photo and Overlay */
-.profilePhoto {
-    position: relative;
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 2px solid #ddd;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    cursor: pointer;
-}
-
-.profilePhoto img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-}
-
-/* Overlay for Enlarged Profile Photo */
-#photoOverlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-.overlayContent {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-#enlargedPhoto {
-    width: 300px;
-    height: 300px;
-    border-radius: 50%;
-    margin-bottom: 20px;
-}
-
-.overlayContent button {
-    background-color: #007bff;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin: 10px 0;
-    transition: background-color 0.3s ease;
-}
-
-.overlayContent button:hover {
-    background-color: #0056b3;
-}
-
-/* Form for Uploading Profile Photo */
-#uploadPhotoForm {
-    display: none;
-    margin-top: 10px;
-}
-
-#uploadPhotoForm input[type="file"] {
-    margin-bottom: 10px;
-}
-
-#uploadPhotoForm button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-#uploadPhotoForm button:hover {
-    background-color: #45a049;
-}
-
-/* Profile Details */
-.profileDetails {
-    flex-grow: 1;
-    margin-left: 20px;
-}
-
-.profileDetails .name {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-.profileDetails .availability {
-    font-size: 16px;
-    margin-bottom: 10px;
-}
-
-.profileDetails .rating {
-    font-size: 16px;
-    color: #f39c12;
-}
-
-/* Edit Profile Button */
-.editProfile {
-    background-color: #007BFF;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 15px;
-}
-
-.editProfile:hover {
-    background-color: #0056b3;
-}
-
-/* Modal for Editing Profile */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    justify-content: center;
-    align-items: center;
-}
-
-.modalContent {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    width: 80%;
-    max-width: 500px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-}
-
-.modalContent h2 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.modalContent .close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    cursor: pointer;
-}
-
-.modalContent .close:hover {
-    color: black;
-}
-
-/* Edit Profile Form */
-/* Profile Modal Content Form Styles */
-.profileHeader .modalContent form {
-    display: flex;
-    flex-direction: column;
-}
-
-.profileHeader .modalContent form label {
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-.profileHeader .modalContent form input[type="text"],
-.profileHeader .modalContent form select {
-    padding: 10px;
-    margin-bottom: 15px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-}
-
-.profileHeader .modalContent form button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-}
-
-.profileHeader .modalContent form button:hover {
-    background-color: #45a049;
-}
-
-/* Focus Styles for Profile Form */
-.profileHeader .modalContent form input[type="text"]:focus,
-.profileHeader .modalContent form select:focus {
-    border-color: #4CAF50; /* Change border color to green on focus */
-    outline: none; /* Remove default outline */
-    box-shadow: 0 0 5px rgba(76, 175, 80, 0.5); /* Subtle shadow effect */
-}
-
-/* Active State for Profile Button */
-.profileHeader .modalContent form button:active {
-    background-color: #388e3c; /* Darker green when button is pressed */
-}
-
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .profileHeader {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .profileDetails {
-        margin-left: 0;
-        text-align: center;
-    }
-
-    #photoOverlay .overlayContent {
-        align-items: center;
-    }
-}
-
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .skillsRow, .showcaseGrid {
-        flex-direction: column;
-    }
-
-    .skillItem, .showcaseItem {
-        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.5); /* Black w/ opacity */
     }
 
     .modalContent {
-        width: 90%;
+        background-color: #fff;
+        margin: 15% auto;
+        padding: 20px;
+        border-radius: 10px;
+        width: 80%;
+        max-width: 500px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
+
+    /* Modal close button styles */
+.close {
+    background-color: #fff; /* White background by default */
+    border: 1px solid #ddd; /* Light border */
+    border-radius: 50%; /* Round the button */
+    color: #aaa;
+    font-size: 18px; /* Slightly smaller font */
+    padding: 5px 10px; /* Add some padding to make it bigger */
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Add smooth transition */
+    display: inline-block;
+    margin-left: 10px; /* Space it next to the content */
 }
 
-    </style>
-</head>
+/* Hover effect for close button */
+.close:hover {
+    background-color: #fff; /* Keep the background white on hover */
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.3); /* Add a soft shadow */
+    color: #000; /* Darker text on hover */
+}
 
-<body>
-    
-    <main>
-        <div class="profile">
-            <%- include("partials/profile") -%>
-            <%- include("partials/skills") -%>
-            <%- include("partials/showcases") -%>
-            <%- include("partials/posts") -%>    
-        </div>
-    </main>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
+    .close:hover,
+    .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    /* Enlarged photo overlay */
+    #mainContent #photoOverlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.7);
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+
+    #mainContent .overlayContent {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #mainContent #enlargedPhoto {
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        margin-bottom: 20px;
+    }
+
+    /* Button inside enlarged photo overlay */
+    #mainContent .overlayContent button {
+        background-color: #27374D;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    #mainContent .overlayContent button:hover {
+        background-color: #1f2e3d;
+    }
+
+    @media (max-width: 768px) {
+        #mainContent .skillItem,
+        #mainContent .showcaseItem,
+        #mainContent .postItem {
+            width: 100%; /* Make them full-width on smaller screens */
+        }
+    }
+</style>
+
+<main id="mainContent">
+    <div class="profile">
+        <%- include("partials/profile") -%>
+        <%- include("partials/skills") -%>
+        <%- include("partials/showcases") -%>
+        <%- include("partials/posts") -%>    
+    </div>
+</main>
+
+<!-- Showcase Modal -->
+<div id="addShowcaseModal" class="modal">
+    <div class="modalContent">
+        <span class="skillClose close">&times;</span>
+        <h2>Add New Showcase</h2>
+        <form id="addShowcaseForm" enctype="multipart/form-data">
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" required>
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" required></textarea>
+            <label for="image">Image:</label>
+            <input type="file" id="image" name="image" accept="image/*" required>
+            <label for="skills">Skills:</label>
+            <select id="skills" name="skills" multiple required>
+                <!-- Skill options will be dynamically populated here -->
+            </select>
+            <button type="submit">Add Showcase</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const addShowcaseBtn = document.getElementById('addShowcaseBtn');
+        const addShowcaseModal = document.getElementById('addShowcaseModal');
+        const closeBtn = document.querySelector('.close');
+
+        // Open modal when "Add Showcase" button is clicked
+        addShowcaseBtn.addEventListener('click', function () {
+            addShowcaseModal.style.display = 'block';
         });
-    </script>
-</body>
-</html>
+
+        // Close modal when the close button is clicked
+        closeBtn.addEventListener('click', function () {
+            addShowcaseModal.style.display = 'none';
+        });
+
+        // Close modal when clicking outside the modal content
+        window.addEventListener('click', function (event) {
+            if (event.target == addShowcaseModal) {
+                addShowcaseModal.style.display = 'none';
+            }
+        });
+    });
+</script>
+
+<%- include("partials/footer") -%>
