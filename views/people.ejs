@@ -257,39 +257,45 @@
             <input type="text" id="peopleSkillSearch" placeholder="Search by skill...">
             <button id="searchButton">Search</button>
         </div>
+    <main>
+        <div class="container">
+            <div class="searchContainer">
+                <input type="text" id="peopleSkillSearch" placeholder="Search by skill...">
+                <button id="searchButton">Search</button>
+            </div>
 
-        <div id="peopleContainer">
-            <% if (people.length > 0) { %>
-                <% people.forEach(person => { %>
-                    <div class="person_card">
-                        <img src="<%= person.profile_photo_url || '/images/default_profile_photo.jpg' %>" alt="<%= person.username %>">
-                        <h3><%= person.username %></h3>
-                        <p>Skills: <%= person.skills %></p>
-                        <p>Email: <%= person.email %></p>
-                    </div>
-                <% }) %>
-            <% } else { %>
-                <p>No people found with that skill.</p>
-            <% } %>
+            <div id="peopleContainer">
+                <% if (people.length > 0) { %>
+                    <% people.forEach(person => { %>
+                        <div class="personCard">
+                            <img src="<%= person.profile_photo_url || '/images/default_profile_photo.jpg' %>" alt="<%= person.username %>">
+                            <h3>
+                             <a href="javascript:void(0);" data_user_id="<%= person.user_id %>" onclick="viewProfile(this)"
+                    class="viewProfileBtn"><%= person.username %></a>
+                            <p>Skills: <%= person.skills %></p>
+                            <p>Email: <%= person.email %></p>
+                        </div>
+                    <% }) %>
+                <% } else { %>
+                    <p>No people found with that skill.</p>
+                <% } %>
+            </div>
         </div>
-    </div>
-</main>
+    </main>
 
-<!-- Footer Section -->
-<%- include("partials/footer") -%>
-
-<script>
-    // Search functionality triggered on button click
-    document.getElementById('searchButton').addEventListener('click', async function () {
-        const skill = document.getElementById('peopleSkillSearch').value.toLowerCase();
-
-        // Fetch filtered data from the backend based on the entered skill
-        const response = await fetch(`/people/search?skill=${skill}`);
-        const html = await response.text();
-
-        // Update the peopleContainer with the new filtered results
-        document.getElementById('peopleContainer').innerHTML = html;
-    });
-</script>
+    <!-- Footer Section -->
+    <%- include("partials/footer") -%>
+    <script src="/view_profile.js"></script>
+    <script>
+        // Search functionality triggered on button click
+        document.getElementById('searchButton').addEventListener('click', async function () {
+            const skill = document.getElementById('peopleSkillSearch').value.toLowerCase();
+            // Fetch filtered data from the backend based on the entered skill
+            const response = await fetch(`/people/search?skill=${skill}`);
+            const html = await response.text();
+            // Update the peopleContainer with the new filtered results
+            document.getElementById('peopleContainer').innerHTML = html;
+        });
+    </script>
 </body>
 </html>

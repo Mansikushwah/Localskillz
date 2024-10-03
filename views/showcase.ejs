@@ -124,10 +124,10 @@
                 <% showcases.forEach(showcase => { %>
                     <div class="showcase">
                         <img src="<%= showcase.image_url %>" alt="<%= showcase.title %>">
+                        <a href="javascript:void(0);" data_user_id="<%= showcase.user_id %>" onclick="viewProfile(this)"  class="viewProfileBtn"><%= showcase.username %></a>
                         <h3><%= showcase.title %></h3>
                         <div class="details">
-                            <span><strong>Skill Seeker:</strong> <%= showcase.skill_seeker %></span>
-                            <span><strong>Skill:</strong> <%= showcase.skill_name %></span>
+                            <span><strong>Skill:</strong> <%= showcase.skills %></span>
                             <span><strong>Description:</strong> <%= showcase.description %></span>
                             <span><strong>Date:</strong> <%= new Date(showcase.created_at).toLocaleDateString() %></span>
                         </div>
@@ -135,14 +135,14 @@
                 <% }) %>
             </div>
         </div>
-    </div>
-</main>
-<%- include("partials/footer") -%>
+    </main>
+    <%- include("partials/footer") -%>
 
-<script>
-    document.getElementById('searchBtn').addEventListener('click', function() {
-        const searchTerm = document.getElementById('skillSearch').value.toLowerCase();
-        const showcases = document.querySelectorAll('#showcaseContainer .showcase');
+ <script src="/view_profile.js"></script>
+    <script>
+        document.getElementById('searchBtn').addEventListener('click', function() {
+            const searchTerm = document.getElementById('skillSearch').value.toLowerCase();
+            const showcases = document.querySelectorAll('#showcaseContainer .showcase');
 
         showcases.forEach(showcase => {
             const skill = showcase.querySelector('.details span:nth-child(2)').innerText.toLowerCase();

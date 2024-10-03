@@ -65,15 +65,17 @@ router.get('/showcase', (req, res) => {
     const query = `
         SELECT 
             showcases.image_url, 
-            users.username AS skill_seeker, 
+            users.username,
+            users.user_id, 
             showcases.title, 
             showcases.description, 
             showcases.created_at, 
-            skills.skill_name
+            GROUP_CONCAT(skills.skill_name SEPARATOR ', ') AS skills
         FROM showcases
         JOIN users ON showcases.user_id = users.user_id
         JOIN showcase_skills ON showcases.showcase_id = showcase_skills.showcase_id
         JOIN skills ON showcase_skills.skill_id = skills.skill_id
+        GROUP BY showcases.showcase_id, showcases.image_url, users.username, users.user_id, showcases.title, showcases.description, showcases.created_at
         ORDER BY showcases.created_at DESC;
     `;
 
@@ -88,36 +90,32 @@ router.get('/showcase', (req, res) => {
 });
 
 router.get('/post', (req, res) => {
-    const searchTerm = req.query.q || ''; 
-    const userId = req.user.user_id; 
-
-    // SQL query to fetch posts with optional search filter and invitation status
     const query = `
         SELECT 
             posts.post_id,
             posts.title, 
             posts.content, 
             posts.created_at, 
-            users.user_id,       -- Include user_id here
-            users.username AS poster, 
-            users.profile_photo, 
-            GROUP_CONCAT(skills.skill_name) AS skills,
-            (SELECT status FROM invitations WHERE sender_id = ? AND post_id = posts.post_id LIMIT 1) AS invitation_status
+            users.username, 
+            users.user_id,
+            GROUP_CONCAT(skills.skill_name SEPARATOR ', ') AS skills
         FROM posts
         JOIN users ON posts.user_id = users.user_id
-        LEFT JOIN post_skills ON posts.post_id = post_skills.post_id
-        LEFT JOIN skills ON post_skills.skill_id = skills.skill_id
-        WHERE posts.title LIKE ? OR skills.skill_name LIKE ?
-        GROUP BY posts.post_id
+        JOIN post_skills ON posts.post_id = post_skills.post_id
+        JOIN skills ON post_skills.skill_id = skills.skill_id
+        GROUP BY posts.post_id, posts.title, posts.content, posts.created_at, users.username
         ORDER BY posts.created_at DESC;
     `;
 
-    db.query(query, [userId, `%${searchTerm}%`, `%${searchTerm}%`], (err, results) => {
+    db.query(query, (err, results) => {
         if (err) {
             console.error('Error fetching posts:', err);
             return res.status(500).send('Server error');
         }
-        res.render('post', { posts: results, searchTerm: searchTerm, user: req.user });
+
+        res.render('post', { posts: results, user: req.user });
     });
 });
+
+ 
 module.exports = router;

@@ -306,15 +306,26 @@
                         <a href="/logout">Logout</a>
                     </div>
                 </div>
-                <button class="hamburger" id="hamburger">&#9776;</button>
-                <nav class="sidebar" id="sidebar">
-                    <h2>Navigation</h2>
-                    <ul>
-                        <li><a href="/people">People</a></li>
-                        <li><a href="/showcase">Showcases</a></li>
-                        <li><a href="/post">Posts</a></li>
-                    </ul>
-                </nav>
+                <div class="container"></div>
+                    <nav class="sidebar" id="sidebar">
+                        <h2>Navigation</h2>
+                        <ul>
+                            <li><a href="/people">People</a></li>
+                            <li><a href="/showcase">Showcases</a></li>
+                            <li><a href="/post">Posts</a></li>
+                            <li><a href="/notification">Notifications</a></li>
+                        </ul>
+                    </nav>
+            
+                    <div class="content">
+                        <button class="hamburger" id="hamburger">
+                            &#9776; <!-- This is the hamburger icon -->
+                        </button>
+                        <h1>Welcome to My Page</h1>
+                        <p>This is the main content area.</p>
+                        <!-- More content can go here -->
+                    </div>
+                </div>
             </nav>
         <% } else { %>
             <nav class="navbar">

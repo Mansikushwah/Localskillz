@@ -1,41 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const db = require('../config/database');
-router.get('/post', (req, res) => {
-    const searchTerm = req.query.q || ''; // Get the search term from query
-    const userId = req.user.user_id; // Get the user ID from the session or token
-
-    // SQL query to fetch posts with optional search filter and invitation status
-    const query = `
-        SELECT 
-            posts.post_id,
-            posts.title, 
-            posts.content, 
-            posts.created_at, 
-            users.user_id,       -- Include user_id here
-            users.username AS poster, 
-            users.profile_photo, 
-            GROUP_CONCAT(skills.skill_name) AS skills,
-            (SELECT status FROM invitations WHERE sender_id = ? AND post_id = posts.post_id LIMIT 1) AS invitation_status
-        FROM posts
-        JOIN users ON posts.user_id = users.user_id
-        LEFT JOIN post_skills ON posts.post_id = post_skills.post_id
-        LEFT JOIN skills ON post_skills.skill_id = skills.skill_id
-        WHERE posts.title LIKE ? OR skills.skill_name LIKE ?
-        GROUP BY posts.post_id
-        ORDER BY posts.created_at DESC;
-    `;
-
-    db.query(query, [userId, `%${searchTerm}%`, `%${searchTerm}%`], (err, results) => {
-        if (err) {
-            console.error('Error fetching posts:', err);
-            return res.status(500).send('Server error');
-        }
-
-        // Render the 'post' view with posts and searchTerm
-        res.render('post', { posts: results, searchTerm: searchTerm, user: req.user });
-    });
-});
 
 router.post('/add_post', (req, res) => {
     const { title, content, skills } = req.body;

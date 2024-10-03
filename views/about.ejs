@@ -94,13 +94,14 @@
         <% team_members.forEach(member => { %>
             <div class="team_member">
                 <img id="member_photo" src="<%= member.profile_picture ? member.profile_picture : '/images/default_profile_photo.jpg' %>" alt="<%= member.name %>">
-                <div class="team_member_info">
+            
                     <h3><%= member.name %></h3>
                     <p><%= member.email %></p>
                 </div>
-            </div>
-        <% }) %>
-    </section>
-</main>
-
-<%- include("partials/footer") -%>
+            <% }) %>
+        </section>
+    </main>
+    
+    <%- include("partials/footer") -%>
+</body>
+</html>

@@ -172,47 +172,51 @@
 
 <!-- Footer Section -->
 <footer>
+    <div class="container">
+        <div class="searchContainer">
+            <input type="text" id="skillSearch" placeholder="Search by skill...">
+            <button id="searchBtn">Search</button>
+        </div>
+    <!-- Posts Listing -->
+     <div id="postContainer">
+        <% if (posts && posts.length > 0) { %>
+            <% posts.forEach(post => { %>
+                <div class="jobPosting">
+                    <div class="profilePhoto">
+                        <img src="<%= post.profile_photo || '/images/default_profile_photo.jpg' %>" alt="Profile Photo">
+                    </div>
+                    <a href="javascript:void(0);" data_user_id="<%= post.user_id %>" onclick="viewProfile(this)"
+                        class="viewProfileBtn"><%= post.username %></a>
+                    <div class="jobDetails">
+                        <h2><%= post.title %></h2>
+                        <p><strong>Skills:</strong> <%= post.skills %></p>
+                        <p><strong>Description:</strong> <%= post.content %></p>
+                        <p><strong>Posted:</strong> <%= new Date(post.created_at).toLocaleDateString() %></p>
+                    </div>
+                </div>
+            <% }) %>
+        <% } else { %>
+            <p>No posts found.</p>
+        <% } %>
+     </div>
+    
+    </div>
+        
+    
+    <!-- Footer Section -->
     <%- include("partials/footer") -%>
-</footer>
-
-<script>
-    // Function to search for jobs
-    function searchJobs() {
-        const searchTerm = document.getElementById('searchBar').value;
-        window.location.href = `/post?q=${encodeURIComponent(searchTerm)}`;
-    }
-
-    // Function to handle the invite button click
-    function handleInviteClick(buttonElement) {
-        const userId = buttonElement.getAttribute('data-user-id');
-        const postId = buttonElement.getAttribute('data-post-id');
-        sendInvitation(userId, postId, buttonElement);
-    }
-    
-    // Function to send an invitation
-    async function sendInvitation(userId, postId, buttonElement) {
-        try {
-            const response = await fetch('/invite', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ receiverId: userId, postId: postId })
+    <script src="/view_profile.js"></script>
+    <script>
+        document.getElementById('searchBtn').addEventListener('click', function() {
+            console.log("yes means yes");
+            const searchTerm = document.getElementById('skillSearch').value.toLowerCase();
+            const posts = document.querySelectorAll('#postContainer .jobPosting');
+            console.log(posts);
+            posts.forEach(post => {
+                const skill = post.querySelector('.jobDetails p:nth-of-type(1)').innerText.toLowerCase();
+                post.style.display = skill.includes(searchTerm) ? 'block' : 'none';
             });
-            const data = await response.json();
-    
-            if (response.ok) {
-                alert(data.message); // Display the server response message
-                buttonElement.textContent = 'Pending';
-                buttonElement.disabled = true;
-            } else {
-                alert('Failed to send invitation: ' + data.error || 'Unknown error');
-            }
-        } catch (error) {
-            console.error('Error sending invitation:', error);
-            alert('Failed to send invitation');
-        }
-    }
-</script>
+        });
+    </script>
 </body>
 </html>
