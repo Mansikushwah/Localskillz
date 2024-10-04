@@ -271,12 +271,16 @@ button:hover {
         background-color: #1f2e3d;
     }
     #mainContent .skills .skillItem {
-    display: inline-block; /* Display skills in a row */
+    display: flex; /* Display skills in a row */
     border: 1px solid #ddd; /* Add a border around each skill */
     border-radius: 5px; /* Optional: slightly rounded corners */
     padding: 1vh 1vw; /* Add padding inside each skill */
     margin: 5px; /* Space between each skill */
     background-color: #f9f9f9; /* Light background color */
+    width: 15vw;
+    height: 6vh;
+    align-items: center;
+    flex-direction: row;
 }
     @media (max-width: 768px) {
         #mainContent .skillItem,
