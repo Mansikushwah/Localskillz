@@ -115,7 +115,32 @@ button:hover {
     font-size: 14px; /* Adjust font size */
     align-self: flex-end; /* Align to the right */
 }
-
+#mainContent .skills .skillItem {
+    display: inline-flex; /* Changed to inline-flex to align content properly */
+    align-items: center; /* Vertically align content */
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 1vh 1vw;
+    margin: 5px;
+    background-color: #f9f9f9;
+    position: relative; /* Enable positioning for the close button */
+}
+#mainContent .skills .skillItem .closeSkill {
+    background-color: #fff; /* White background */
+    border: 1px solid #ddd; /* Light border */
+    border-radius: 50%; /* Round the button */
+    color: #aaa;
+    font-size: 12px; /* Smaller font size */
+    padding: 2px 6px; /* Compact padding for a smaller button */
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    margin-left: 10px; /* Space it from the skill text */
+}
+#mainContent .skills .skillItem .closeSkill:hover {
+    background-color: #f0f0f0;
+    color: #000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
 /* Specifically targeting Add Showcase button */
 .showcases button {
     padding: 5px 15px; /* Same as Add Post */
@@ -129,7 +154,9 @@ button:hover {
     font-size: 14px;
 }
 
-
+.posts {
+    margin-bottom: 2vh; /* 2vh margin at the bottom of posts */
+}
     /* Specific Button Styles */
     #mainContent .editProfile,
     #mainContent .addSkill,
@@ -243,7 +270,14 @@ button:hover {
     #mainContent .overlayContent button:hover {
         background-color: #1f2e3d;
     }
-
+    #mainContent .skills .skillItem {
+    display: inline-block; /* Display skills in a row */
+    border: 1px solid #ddd; /* Add a border around each skill */
+    border-radius: 5px; /* Optional: slightly rounded corners */
+    padding: 1vh 1vw; /* Add padding inside each skill */
+    margin: 5px; /* Space between each skill */
+    background-color: #f9f9f9; /* Light background color */
+}
     @media (max-width: 768px) {
         #mainContent .skillItem,
         #mainContent .showcaseItem,
