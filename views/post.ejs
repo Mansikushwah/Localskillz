@@ -1,183 +1,171 @@
-<%- include("partials/header") -%>
-<style>
-    body {
-        font-family: Arial, sans-serif; /* Overall font for the body */
-        background-color: #f4f4f4; /* Light gray background for the whole page */
-        margin: 0; /* Remove default margin */
-        display: flex; /* Flexbox for layout */
-        flex-direction: column; /* Stack items vertically */
-        min-height: 100vh; /* Full height for body */
-    }
-
-    .top-container {
-        padding: 20px; /* Spacing for the top container */
-        background-color: #ffffff; /* White background for the header */
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-        margin-top: 5px;
-        
-    }
-
-    .search-container {
-        display: flex; /* Flexbox for search bar layout */
-        justify-content: center; /* Center items horizontally */
-        margin: 5px 0; /* Space above and below the search bar */
-        /* Adjust this value to increase the gap between header and search container */
-    }
-    
-
-    .search-bar {
-        padding: 10px; /* Padding inside the search bar */
-        border: 1px solid #ccc; /* Border styling */
-        border-radius: 4px; /* Rounded corners */
-        width: 300px; /* Fixed width for the search bar */
-    }
-
-    .search-button {
-        padding: 10px 15px; /* Padding for the button */
-        margin-left: 10px; /* Space between the search bar and button */
-        border: none; /* No border */
-        background-color: #27374D; /* Button background color */
-        color: white; /* Text color */
-        border-radius: 4px; /* Rounded corners */
-        cursor: pointer; /* Pointer cursor on hover */
-    }
-
-    .search-button:hover {
-        background-color: #1d2a4d; /* Darker shade on hover */
-    }
-
-    /* Posts Listing */
-    .job-posting {
-        display: flex; /* Flexbox for job posting layout */
-        margin: 15px auto; /* Center the job posting with automatic margins */
-        background-color: white; /* Background color for job postings */
-        border-radius: 8px; /* Rounded corners */
-        padding: 20px; /* Padding inside job posting */
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-        max-width: 600px; /* Set a maximum width to prevent it from covering the entire body */
-        width: 100%; /* Allow it to take full width up to max-width */
-    }
-    
-    /* Optional: Add responsiveness */
-    @media (max-width: 768px) {
-        .job-posting {
-            padding: 15px; /* Adjust padding for smaller screens */
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillConnect</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
-    }
-    
 
-    .profile-photo {
-        margin-right: 20px; /* Space to the right of the profile photo */
-    }
+        /* Header Styling */
+        .top-container {
+            padding: 20px;
+            background-color: #27374D;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
 
-    .profile-photo img {
-        width: 80px; /* Fixed width for the profile photo */
-        height: 80px; /* Fixed height for the profile photo */
-        border-radius: 50%; /* Circular profile photo */
-    }
+        .top-container a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+        }
 
-    .job-details {
-        flex: 1; /* Allow job details to grow */
-    }
-    
-    h2.post {
-        margin: 0 0 10px; /* Margin below the heading */
-        font-size: 20px; /* Font size for job title */
-        color: #27374D; /* Color for job title */
-    }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffae42;
+        }
 
-    p.post {
-        margin: 5px 0; /* Space above and below paragraphs */
-        color: #555; /* Text color */
-    }
+        /* Search Container Styling */
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
 
-    /* Footer Section */
-    footer {
-        margin-top: auto; /* Push footer to the bottom */
-        padding: 10px; /* Padding for the footer */
-        background-color: #27374D; /* Footer background color */
-        color: white; /* Footer text color */
-        text-align: center; /* Center text in footer */
-    }
-    .btn {
-        padding: 10px 15px; /* Common padding for all buttons */
-        border: none; /* No border */
-        border-radius: 4px; /* Rounded corners */
-        color: white; /* Text color */
-        cursor: pointer; /* Pointer cursor on hover */
-        transition: background-color 0.3s; /* Smooth transition for background color */
-    }
-    
-    .btn-invite {
-        background-color: #27374D; /* Invite button background color */
-    }
-    
-    .btn-invite:hover {
-        background-color: #1d2a4d; /* Darker shade on hover */
-    }
-    
-    .btn-disabled {
-        background-color: #ccc; /* Background color for disabled button */
-        color: #666; /* Text color for disabled button */
-        cursor: not-allowed; /* Change cursor to not-allowed */
-    }
-    
-    .btn-accepted {
-        background-color: #4CAF50; /* Accepted button background color (green) */
-    }
-    
-    .btn-accepted:hover {
-        background-color: #45a049; /* Darker shade on hover for accepted button */
-    }
-    
-</style>
+        .search-bar {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 300px;
+        }
 
+        .search-button {
+            padding: 10px 15px;
+            margin-left: 10px;
+            border: none;
+            background-color: #27374D;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
 
+        /* Post Card Styling */
+        .job-posting {
+            display: flex;
+            margin: 15px auto;
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+            border: 1px solid #ddd;
+        }
 
-<!-- Footer Section -->
+        .profile-photo {
+            margin-right: 20px;
+        }
 
-    <div class="container">
-        <div class="searchContainer">
-            <input type="text" id="skillSearch" placeholder="Search by skill...">
-            <button id="searchBtn">Search</button>
+        .profile-photo img {
+            width: 100px;
+            height: 100px;
+            border-radius: 8px;
+        }
+
+        .job-details h2 {
+            margin: 0 0 10px;
+            font-size: 18px;
+            color: #27374D;
+        }
+
+        .job-details p {
+            margin: 5px 0;
+            color: #555;
+        }
+
+        /* Footer Styling */
+        footer {
+            margin-top: auto;
+            padding: 10px;
+            background-color: #27374D;
+            color: white;
+            text-align: center;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <div class="top-container">
+        <div class="logo">MyLogoSkillConnect</div>
+        <nav>
+            <a href="#">About</a>
+            <a href="#">Services</a>
+            <a href="#">Contact Us</a>
+        </nav>
+        <div class="profile-icon">
+            <img src="path/to/icon.png" alt="Profile Icon" width="40" height="40" style="border-radius: 50%;">
         </div>
-    <!-- Posts Listing -->
-     <div id="postContainer">
-        <% if (posts && posts.length > 0) { %>
-            <% posts.forEach(post => { %>
-                <div class="jobPosting">
-                    <div class="profilePhoto">
-                        <img src="<%= post.profile_photo || '/images/default_profile_photo.jpg' %>" alt="Profile Photo">
-                    </div>
-                    <a href="javascript:void(0);" data_user_id="<%= post.user_id %>" onclick="viewProfile(this)"
-                        class="viewProfileBtn"><%= post.username %></a>
-                    <div class="jobDetails">
-                        <h2><%= post.title %></h2>
-                        <p><strong>Skills:</strong> <%= post.skills %></p>
-                        <p><strong>Description:</strong> <%= post.content %></p>
-                        <p><strong>Posted:</strong> <%= new Date(post.created_at).toLocaleDateString() %></p>
-                    </div>
-                </div>
-            <% }) %>
-        <% } else { %>
-            <p>No posts found.</p>
-        <% } %>
-     </div>
-    
     </div>
-        
-    
+
+    <!-- Search and Posts Section -->
+    <div class="container">
+        <div class="search-container">
+            <input type="text" class="search-bar" id="skillSearch" placeholder="Search by skill...">
+            <button class="search-button" id="searchBtn">Search</button>
+        </div>
+
+        <!-- Posts Listing -->
+        <div id="postContainer">
+            <% if (posts && posts.length > 0) { %>
+                <% posts.forEach(post => { %>
+                    <div class="job-posting">
+                        <div class="profile-photo">
+                            <img src="<%= post.profile_photo || '/images/default_profile_photo.jpg' %>" alt="Profile Photo">
+                        </div>
+                        <div class="job-details">
+                            <a href="javascript:void(0);" data_user_id="<%= post.user_id %>" onclick="viewProfile(this)"
+                                class="viewProfileBtn"><%= post.username %></a>
+                            <h2 class="post"><%= post.title %></h2>
+                            <p><strong>Skill:</strong> <%= post.skills %></p>
+                            <p><strong>Description:</strong> <%= post.content %></p>
+                            <p><strong>Date:</strong> <%= new Date(post.created_at).toLocaleDateString() %></p>
+                        </div>
+                    </div>
+                <% }) %>
+            <% } else { %>
+                <p>No posts found.</p>
+            <% } %>
+        </div>
+    </div>
+
     <!-- Footer Section -->
-    <%- include("partials/footer") -%>
+    <footer>
+        <p>&copy; 2024 SkillConnect. All Rights Reserved.</p>
+        <a href="#" style="color: #ffae42;">Privacy Policy</a> | 
+        <a href="#" style="color: #ffae42;">Terms of Service</a>
+    </footer>
+
     <script src="/view_profile.js"></script>
     <script>
         document.getElementById('searchBtn').addEventListener('click', function() {
-            console.log("yes means yes");
             const searchTerm = document.getElementById('skillSearch').value.toLowerCase();
-            const posts = document.querySelectorAll('#postContainer .jobPosting');
-            console.log(posts);
+            const posts = document.querySelectorAll('#postContainer .job-posting');
             posts.forEach(post => {
-                const skill = post.querySelector('.jobDetails p:nth-of-type(1)').innerText.toLowerCase();
+                const skill = post.querySelector('.job-details p:nth-of-type(1)').innerText.toLowerCase();
                 post.style.display = skill.includes(searchTerm) ? 'block' : 'none';
             });
         });
