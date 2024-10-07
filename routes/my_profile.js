@@ -3,7 +3,6 @@ const router = express.Router();
 const db = require('../config/database');
 router.get('/my_profile', (req, res) => {
     const user = req.user; 
-    console.log(user);
         // Fetch skills for this user
         db.query('SELECT s.skill_id, s.skill_name FROM skills s JOIN user_skills us ON s.skill_id = us.skill_id WHERE us.user_id = ?', [user.user_id], (err, skillResults) => {
             if (err) throw err;
@@ -28,7 +27,6 @@ router.get('/my_profile', (req, res) => {
 });
 router.post('/update_profile', (req, res) => {
     const { username, availability } = req.body;
-    console.log("newwa");
     if (!username || !availability) {
         return res.status(400).json({ success: false, message: 'Username and availability cannot be null' });
     }

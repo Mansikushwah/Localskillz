@@ -18,31 +18,28 @@ const queryDatabase = (query, params) => {
 };
 
 //Function to find or create a chat room
-const getOrCreateChatRoom = async (user1Id, user2Id) => {
-    let chatRoom = await queryDatabase(
-        'SELECT chat_room_id FROM chat_rooms WHERE (user1_id = ? AND user2_id = ?) OR (user1_id = ? AND user2_id = ?)',
-        [user1Id, user2Id, user2Id, user1Id]
-    );
 
-    if (chatRoom.length === 0) {
-        const result = await queryDatabase(
-            'INSERT INTO chat_rooms (user1_id, user2_id) VALUES (?, ?)',
-            [user1Id, user2Id]
-        );
-        return result.insertId;
-    }
-
-    return chatRoom[0].chat_room_id;
-};
 
 // GET /chat/:chatRoomId - Render chat room with messages
-router.get('/chat/:chatRoomId', async (req, res) => {
-    const chatRoomId = parseInt(req.params.chatRoomId, 10);
-    if (isNaN(chatRoomId)) {
-        return res.status(400).json({ error: 'Invalid chat room ID' });
+router.get('/chat/:profileId', async (req, res) => {
+    const profileId = parseInt(req.params.profileId, 10);  // Parse profileId from URL
+    const Id = req.user.user_id;  // Logged-in user's ID
+
+    if (isNaN(profileId)) {
+        return res.status(400).json({ error: 'Invalid profile ID' });
     }
 
     try {
+        // SQL Query to get the chatRoomId
+        const chatRoomQuery = `
+            SELECT chat_room_id 
+            FROM chat_rooms 
+            WHERE (user1_id = ? AND user2_id = ?) 
+               OR (user1_id = ? AND user2_id = ?)
+        `;
+        const [rows] = await queryDatabase(chatRoomQuery, [Id, profileId, profileId, Id]);
+        const chatRoomId = rows.chat_room_id;
+        console.log(chatRoomId);
         const messages = await queryDatabase(
             `SELECT m.message_id, m.sender_id, u.username, m.message, m.created_at 
             FROM messages m 
@@ -61,6 +58,7 @@ router.get('/chat/:chatRoomId', async (req, res) => {
 
 // GET /messages/:chatRoomId - Fetch messages for a chat room
 router.get('/messages/:chatRoomId', async (req, res) => {
+    console.log("moi moi");
     const chatRoomId = parseInt(req.params.chatRoomId, 10);
     if (isNaN(chatRoomId)) {
         return res.status(400).json({ error: 'Invalid chat room ID' });
@@ -85,6 +83,7 @@ router.get('/messages/:chatRoomId', async (req, res) => {
 
 // POST /messages - Post a new message
 router.post('/messages', async (req, res) => {
+    console.log("dance karo dance");
     const { chatRoomId, message } = req.body;
     const senderId = req.user.user_id; // Assume user_id is set in req.user by authentication middleware
 

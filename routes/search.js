@@ -62,24 +62,29 @@ router.get('/people/search', (req, res) => {
 
 
 router.get('/showcase', (req, res) => {
+    const userId = req.user ? req.user.user_id : null; // Get the user ID if logged in
     const query = `
         SELECT 
-            showcases.image_url, 
+            showcases.image_url,
+            showcases.showcase_id, 
             users.username,
             users.user_id, 
             showcases.title, 
             showcases.description, 
             showcases.created_at, 
-            GROUP_CONCAT(skills.skill_name SEPARATOR ', ') AS skills
+            GROUP_CONCAT(skills.skill_name SEPARATOR ', ') AS skills,
+            IF(likes.user_id IS NOT NULL, true, false) AS userLiked,
+            COUNT(likes.showcase_id) AS likeCount
         FROM showcases
         JOIN users ON showcases.user_id = users.user_id
         JOIN showcase_skills ON showcases.showcase_id = showcase_skills.showcase_id
         JOIN skills ON showcase_skills.skill_id = skills.skill_id
+        LEFT JOIN like_showcase AS likes ON showcases.showcase_id = likes.showcase_id AND likes.user_id = ?
         GROUP BY showcases.showcase_id, showcases.image_url, users.username, users.user_id, showcases.title, showcases.description, showcases.created_at
         ORDER BY showcases.created_at DESC;
     `;
 
-    db.query(query, (err, results) => {
+    db.query(query, [userId], (err, results) => {
         if (err) {
             console.error('Error fetching showcases:', err);
             return res.status(500).send('Server error');
@@ -90,32 +95,38 @@ router.get('/showcase', (req, res) => {
 });
 
 router.get('/post', (req, res) => {
+    const userId = req.user ? req.user.user_id : null; // Get the user ID if logged in
     const query = `
-        SELECT 
-            posts.post_id,
-            posts.title, 
-            posts.content, 
-            posts.created_at, 
-            users.username, 
-            users.user_id,
-            GROUP_CONCAT(skills.skill_name SEPARATOR ', ') AS skills
-        FROM posts
-        JOIN users ON posts.user_id = users.user_id
-        JOIN post_skills ON posts.post_id = post_skills.post_id
-        JOIN skills ON post_skills.skill_id = skills.skill_id
-        GROUP BY posts.post_id, posts.title, posts.content, posts.created_at, users.username
-        ORDER BY posts.created_at DESC;
-    `;
+    SELECT 
+        posts.post_id,
+        posts.title, 
+        posts.content, 
+        posts.created_at, 
+        users.username, 
+        users.user_id, 
+        users.profile_photo,
+        GROUP_CONCAT(skills.skill_name SEPARATOR ', ') AS skills,
+        IF(user_likes.user_id IS NOT NULL, true, false) AS liked, -- Current user like status
+        COUNT(all_likes.post_id) AS like_count -- Total likes, no user filter
+    FROM posts
+    JOIN users ON posts.user_id = users.user_id
+    LEFT JOIN post_skills ON posts.post_id = post_skills.post_id
+    LEFT JOIN skills ON post_skills.skill_id = skills.skill_id
+    LEFT JOIN like_post AS user_likes ON posts.post_id = user_likes.post_id AND user_likes.user_id = ? -- User-specific like
+    LEFT JOIN like_post AS all_likes ON posts.post_id = all_likes.post_id -- All likes, no user filter
+    GROUP BY posts.post_id, posts.title, posts.content, posts.created_at, users.username, users.user_id, users.profile_photo
+    ORDER BY posts.created_at DESC;
+`;
 
-    db.query(query, (err, results) => {
-        if (err) {
-            console.error('Error fetching posts:', err);
-            return res.status(500).send('Server error');
-        }
+db.query(query, [userId], (err, results) => {
+    if (err) {
+        console.error('Error fetching posts:', err);
+        return res.status(500).send('Server error');
+    }
 
-        res.render('post', { posts: results, user: req.user });
-    });
+    res.render('post', { posts: results, user: req.user });
+});  
 });
 
- 
+
 module.exports = router;

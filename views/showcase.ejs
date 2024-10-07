@@ -122,7 +122,7 @@
         <div id="showcaseContainer">
             <div class="showcase-wrapper"> <!-- Wrapper for showcases -->
                 <% showcases.forEach(showcase => { %>
-                    <div class="showcase">
+                    <div class="showcase" id="showcase-<%= showcase.showcase_id %>">
                         <img src="<%= showcase.image_url %>" alt="<%= showcase.title %>">
                         <a href="javascript:void(0);" data_user_id="<%= showcase.user_id %>" onclick="viewProfile(this)"  class="viewProfileBtn"><%= showcase.username %></a>
                         <h3><%= showcase.title %></h3>
@@ -131,6 +131,10 @@
                             <span><strong>Description:</strong> <%= showcase.description %></span>
                             <span><strong>Date:</strong> <%= new Date(showcase.created_at).toLocaleDateString() %></span>
                         </div>
+                        <button class="likeBtn" data-showcase-id="<%= showcase.showcase_id %>" data-liked="<%= showcase.userLiked ? 'true' : 'false' %>">
+                            <%= showcase.userLiked ? 'Unlike' : 'Like' %>
+                        </button>
+                        <span class="likeCount" id="likeCount-<%= showcase.showcase_id %>">Likes: <%= showcase.likeCount %></span>
                     </div>
                 <% }) %>
             </div>
@@ -141,14 +145,45 @@
  <script src="/view_profile.js"></script>
     <script>
         document.getElementById('searchBtn').addEventListener('click', function() {
+            console.log("gaana gayegi");
             const searchTerm = document.getElementById('skillSearch').value.toLowerCase();
             const showcases = document.querySelectorAll('#showcaseContainer .showcase');
 
-        showcases.forEach(showcase => {
-            const skill = showcase.querySelector('.details span:nth-child(2)').innerText.toLowerCase();
-            showcase.style.display = skill.includes(searchTerm) ? 'block' : 'none';
+            showcases.forEach(showcase => {
+                const skill = showcase.querySelector('.details span:nth-child(1)').innerText.toLowerCase();
+                console.log(skill);
+                showcase.style.display = skill.includes(searchTerm) ? 'block' : 'none';
+            });
+        });
+        document.querySelectorAll('.likeBtn').forEach(button => {
+        button.addEventListener('click', function() {
+            const showcaseId = this.getAttribute('data-showcase-id');
+            const isLiked = this.getAttribute('data-liked') === 'true';
+
+            fetch('/like-showcase', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ showcaseId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                const likeCountElement = document.getElementById(`likeCount-${showcaseId}`);
+                if (data.liked) {
+                    this.textContent = 'Unlike';
+                    this.setAttribute('data-liked', 'true');
+                } else {
+                    this.textContent = 'Like';
+                    this.setAttribute('data-liked', 'false');
+                }
+                likeCountElement.textContent = `Likes: ${data.like_count}`;
+            })
+            .catch(error => {
+                console.error('Error liking showcase:', error);
+            });
         });
     });
-</script>
+    </script>
 </body>
 </html>

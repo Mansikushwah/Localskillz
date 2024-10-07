@@ -30,7 +30,9 @@ router.get('/another_profile/:user_id', (req, res) => {
             skills: [],
             showcases: [],
             posts: [],
-            invitations: []
+            invitations: [],
+            followerCount: 0,
+            isFollowing: false
         };
 
         // Fetch skills of the user
@@ -156,7 +158,40 @@ router.get('/another_profile/:user_id', (req, res) => {
                             sender_name: invite.sender_name,
                             status: invite.status,
                         }));
-                        res.render('another_profile', { profile: userProfile, user: req.user });
+
+                        const getFollowerCountQuery = `
+                        SELECT COUNT(*) AS followerCount 
+                        FROM follows 
+                        WHERE followed_id = ?; 
+                    `;
+
+                    db.query(getFollowerCountQuery, [user_id], (err, followerResults) => {
+                        if (err) {
+                            console.error(err);
+                            return res.status(500).send('Server error');
+                        }
+
+                        userProfile.followerCount = followerResults[0].followerCount;
+
+                        // Check if the logged-in user is following this user
+                        const checkFollowingQuery = `
+                            SELECT COUNT(*) AS isFollowing 
+                            FROM follows 
+                            WHERE follower_id = ? AND followed_id = ?;
+                        `;
+
+                        db.query(checkFollowingQuery, [id, user_id], (err, followingResults) => {
+                            if (err) {
+                                console.error(err);
+                                return res.status(500).send('Server error');
+                            }
+
+                            userProfile.isFollowing = followingResults[0].isFollowing > 0;
+
+                            // Render profile page
+                            res.render('another_profile', { profile: userProfile, user: req.user });
+                        });
+                    });
                     });
                 });
             });

@@ -104,35 +104,70 @@
                     <div class="profile-photo">
                         <img src="<%= post.profile_photo || '/images/default_profile_photo.jpg' %>" alt="Profile Photo">
                     </div>
-                    <div class="job-details">
-                        <a href="javascript:void(0);" data_user_id="<%= post.user_id %>" onclick="viewProfile(this)">
-                            <%= post.username %>
-                        </a>
-                        <h2 class="post"><%= post.title %></h2>
-                        <p class="post"><strong>Skill:</strong> <%= post.skills %></p>
-                        <p class="post"><strong>Description:</strong> <%= post.content %></p>
-                        <p class="post"><strong>Date:</strong> <%= new Date(post.created_at).toLocaleDateString() %></p>
+                    <a href="javascript:void(0);" data_user_id="<%= post.user_id %>" onclick="viewProfile(this)"
+                        class="viewProfileBtn"><%= post.username %></a>
+                    <div class="jobDetails">
+                        <h2><%= post.title %></h2>
+                        <p><strong>Skills:</strong> <%= post.skills %></p>
+                        <p><strong>Description:</strong> <%= post.content %></p>
+                        <p><strong>Posted:</strong> <%= new Date(post.created_at).toLocaleDateString() %></p>
+                        <button class="likeBtn" data-post-id="<%= post.post_id %>">
+                            <%= post.liked ? 'Unlike' : 'Like' %>
+                        </button>
+                        <span class="likeCount">Likes: <%= post.like_count || 0 %></span>
                     </div>
                 </div>
             <% }) %>
         <% } else { %>
             <p>No posts found.</p>
         <% } %>
+     </div>
+    
     </div>
-</div>
-
-<%- include("partials/footer") -%>
-
-<script src="/view_profile.js"></script>
-<script>
-    document.getElementById('searchBtn').addEventListener('click', function() {
-        const searchTerm = document.getElementById('skillSearch').value.toLowerCase();
-        const posts = document.querySelectorAll('#postContainer .job-posting');
-        posts.forEach(post => {
-            const skill = post.querySelector('.post:nth-of-type(2)').innerText.toLowerCase();
-            post.style.display = skill.includes(searchTerm) ? 'block' : 'none';
+        
+    
+    <!-- Footer Section -->
+    <%- include("partials/footer") -%>
+    <script src="/view_profile.js"></script>
+    <script>
+        document.getElementById('searchBtn').addEventListener('click', function() {
+            console.log("yes means yes");
+            const searchTerm = document.getElementById('skillSearch').value.toLowerCase();
+            const posts = document.querySelectorAll('#postContainer .jobPosting');
+            console.log(posts);
+            posts.forEach(post => {
+                const skill = post.querySelector('.jobDetails p:nth-of-type(1)').innerText.toLowerCase();
+                post.style.display = skill.includes(searchTerm) ? 'block' : 'none';
+            });
         });
+        document.getElementById('postContainer').addEventListener('click', function (event) {
+        if (event.target.classList.contains('likeBtn')) {
+            const button = event.target;
+            const postId = button.getAttribute('data-post-id');
+            const likeCountSpan = button.nextElementSibling;
+
+            // Disable button while processing
+            button.disabled = true;
+            
+            // Send a POST request to like/unlike the post
+            fetch('/like-post', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ postId: postId }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                button.textContent = data.liked ? 'Unlike' : 'Like';
+                likeCountSpan.innerText = `Likes: ${data.like_count}`;
+            })
+            .catch(error => console.error('Error:', error))
+            .finally(() => {
+                button.disabled = false; // Re-enable the button
+            });
+        }
     });
-</script>
+    </script>
 </body>
 </html>

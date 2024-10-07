@@ -279,6 +279,10 @@
         <div class="profile">
             <div class="profileHeader">
                 <img src="<%= profile.profile_photo || '/images/default_profile_photo.jpg' %>" alt="Profile Photo">
+                <div class="follow-section">
+                    <button id="followButton" class="follow-btn"><%= profile.isFollowing ? 'Following' : 'Follow' %></button>
+                    <span>Followers: <%= profile.followerCount %></span>
+                </div>
                 <div class="profileDetails">
                     <h1>
                         <%= profile.username %>
@@ -412,6 +416,50 @@
         </div>
     </div>
     <script>
+        document.getElementById('followButton').addEventListener('click', function() {
+            // Disable button to prevent multiple clicks
+            this.disabled = true;
+            const userId = "<%= profile.user_id %>";
+                const isFollowing = this.innerText.trim() === 'Following';
+            const action = isFollowing ? 'unfollow' : 'follow';
+    
+            // Send a POST request to the server with the action (follow/unfollow) and the user ID
+            fetch(`/follows/${action}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ userId }) // Send the userId of the profile being followed/unfollowed
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Toggle button text and update follower count on success
+                    if (action === 'follow') {
+                        this.innerText = 'Following';
+                    } else {
+                        this.innerText = 'Follow';
+                    }
+    
+                    // Update follower count
+                    const followerCountElement = document.querySelector('#followerCount'); // Use an ID for precise selection
+                    if (followerCountElement) {
+                        followerCountElement.innerText = `Followers: ${data.followerCount}`;
+                     }
+                } else {
+                    // If follow/unfollow failed, show a message
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again later.');
+            })
+            .finally(() => {
+                // Re-enable the button after the request is done
+                this.disabled = false;
+            });
+        });
         function handleInviteClick(buttonElement) {
             const userId = buttonElement.getAttribute('data_user_id');
             const profileId = buttonElement.getAttribute('data_profile_id');
