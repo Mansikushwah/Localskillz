@@ -6,7 +6,7 @@ module.exports = function(passport) {
     passport.use(new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
         User.findByEmail(email, (err, user) => {
             if (err) return done(err);
-            if (!user) return done(null, false, { message: 'Incorrect email.' });
+            if (!user[0]) return done(null, false, { message: 'Incorrect email.' });
             bcrypt.compare(password, user[0].password, (err, isMatch) => {
                 if (err) return done(err);
                 if (isMatch) return done(null, user);
