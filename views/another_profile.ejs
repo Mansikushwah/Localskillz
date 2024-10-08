@@ -70,11 +70,63 @@
         }
 
         .profileHeader {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.actions-section {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+.actions-section p {
+    margin: 0;
+    font-weight: bold;
+    color: #394867;
+}
+
+.chatButton {
+    background-color: #394867;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    text-align: center;
+}
+
+.chatButton:hover {
+    background-color: #526D82;
+}
+
+.follow-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.follow-section button {
+    background-color: #394867;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.follow-section button:hover {
+    background-color: #526D82;
+}
+
+.follow-section span {
+    font-weight: bold;
+    color: #27374D;
+}
+
 
         .profileHeader img {
             width: 150px;
@@ -84,10 +136,33 @@
         }
 
         .profileDetails {
-            margin-left: 20px;
-            flex: 1;
-        }
+    margin-left: 20px;
+    flex: 1;
+}
+.follow-section {
+    margin-top: 10px; /* Add some space between Invite and Follow sections */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 
+.follow-section button {
+    background-color: #394867;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.follow-section button:hover {
+    background-color: #526D82;
+}
+
+.follow-section span {
+    font-weight: bold;
+    color: #27374D;
+}
         .profileDetails h1 {
             color: #212A3E;
             margin: 0 0 10px;
@@ -279,46 +354,47 @@
         <div class="profile">
             <div class="profileHeader">
                 <img src="<%= profile.profile_photo || '/images/default_profile_photo.jpg' %>" alt="Profile Photo">
-                <div class="follow-section">
-                    <button id="followButton" class="follow-btn"><%= profile.isFollowing ? 'Following' : 'Follow' %></button>
-                    <span>Followers: <%= profile.followerCount %></span>
-                </div>
+                
                 <div class="profileDetails">
-                    <h1>
-                        <%= profile.username %>
-                    </h1>
-                    <p>Available for Work: <%= profile.availability %>
-                    </p>
+                    <h1><%= profile.username %></h1>
+                    <p>Available for Work: <%= profile.availability %></p>
                     <p class="rating">Rating:
-                        <% for (let i=1; i <=5; i++) { %>
-                            <% if (i <=profile.rating) { %>
-                                ★
-                                <% } else { %>
-                                    ☆
-                                    <% } %>
-                                        <% } %>
+                        <% for (let i = 1; i <= 5; i++) { %>
+                            <% if (i <= profile.rating) { %> ★ <% } else { %> ☆ <% } %>
+                        <% } %>
                     </p>
-                    <!-- jiski profile dekh rahe ha uske pass kitne invitations aaye ha  -->
                 </div>
-                <% if (profile.user_id===user.user_id) { %>
-                    <% } else if (profile.invitations.length> 0) { %>
-                        <% if (profile.invitations[0].status==='pending' ) { %>
+            
+                <div class="actions-section">
+                    <% if (profile.user_id === user.user_id) { %>
+                        <!-- No actions for own profile -->
+                    <% } else if (profile.invitations.length > 0) { %>
+                        <% if (profile.invitations[0].status === 'pending') { %>
                             <p>Status: <strong>Pending</strong></p>
                             <button disabled>Invitation Sent</button>
-                            <% } else if (profile.invitations[0].status==='accepted' ) { %>
-                                <p>Status: <strong>Accepted</strong></p>
-                                <a href="/chat/<%= profile.user_id %>">Chat</a>
-                                <% } else { %>
-                                    <button data_user_id="<%= user.user_id %>" data_profile_id="<%= profile.user_id %>"
-                                        onclick="handleInviteClick(this)">Invite</button>
-                                    <% } %>
+                        <% } else if (profile.invitations[0].status === 'accepted') { %>
+                            <p>Status: <strong>Accepted</strong></p>
+                            <a href="/chat/<%= profile.user_id %>" class="chatButton">Chat</a>
                         <% } else { %>
-                                            <button data_user_id="<%= user.user_id %>"
-                                                data_profile_id="<%= profile.user_id %>"
-                                                onclick="handleInviteClick(this)">Invite</button>
-                                            <% } %>
-
+                            <button data_user_id="<%= user.user_id %>" data_profile_id="<%= profile.user_id %>"
+                                onclick="handleInviteClick(this)">Invite</button>
+                        <% } %>
+                    <% } else { %>
+                        <button data_user_id="<%= user.user_id %>" data_profile_id="<%= profile.user_id %>"
+                            onclick="handleInviteClick(this)">Invite</button>
+                    <% } %>
+            
+                    <div class="follow-section">
+                        <span>Followers: <%= profile.followerCount %></span>
+                        <button id="followButton" class="follow-btn">
+                            <%= profile.isFollowing ? 'Following' : 'Follow' %>
+                        </button>
+                        
+                    </div>
+                </div>
             </div>
+            
+            
 
             <div class="skills">
                 <h3>Skills</h3>

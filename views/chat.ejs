@@ -5,11 +5,136 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/styles.css">
     <title>Chat Room</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #27374D;
+            padding: 15px 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header .logo h1 {
+            margin: 0;
+            font-size: 2em;
+            color: white;
+        }
+
+        header .navbar {
+            padding-right: 2vw;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 0 15px;
+            transition: color 0.3s ease;
+        }
+
+        header a:hover {
+            color: #9DB2BF;
+        }
+
+        main {
+            width: 60vw;
+            height: 70vh;
+            margin: 100px auto 20px; /* Adjusted margin-top to 100px for the header */
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1, h2 {
+            color: #27374D;
+            text-align: center;
+            margin: 0 0 10px;
+        }
+
+        #chat-messages {
+            flex-grow: 1;
+            max-height: calc(70vh - 130px); /* Adjusted for dynamic height */
+            overflow-y: auto;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+
+        .message {
+            margin-bottom: 10px;
+            padding: 5px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .message strong {
+            color: #27374D;
+        }
+
+        .message p {
+            margin: 5px 0;
+        }
+
+        .message small {
+            color: #888;
+            font-size: 0.8em;
+        }
+
+        form {
+            display: flex;
+            margin-top: 10px;
+        }
+
+        #messageInput {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-right: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #27374D;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #1f2a3f;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <h1>Chat Room</h1>
+        <div class="logo">
+            <h1>SkillConnect</h1>
+        </div>
+        <div class="navbar">
+            <a href="/">Home</a>
+            <a href="/logout">Logout</a>
+        </div>
     </header>
+    
     <main>
         <h2>Chat Room ID: <%= chatRoomId %></h2>
         <div id="chat-messages" aria-live="polite">
@@ -26,6 +151,7 @@
             <button type="submit">Send</button>
         </form>
     </main>
+
     <script>
         document.getElementById('messageForm').addEventListener('submit', function(event) {
             event.preventDefault();
