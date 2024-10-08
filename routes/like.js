@@ -28,13 +28,20 @@ router.post('/like-showcase', (req, res) => {
                 }
 
                 // Step 3: Get the updated like count
-                const likeCountQuery = 'SELECT COUNT(*) AS like_count FROM like_showcase WHERE showcase_id = ?';
+                const likeCountQuery = 'UPDATE showcases SET likes = likes-1 WHERE showcase_id = ?';
                 db.query(likeCountQuery, [showcaseId], (err, countResult) => {
                     if (err) {
                         console.error('Error fetching like count:', err);
                         return res.status(500).json({ error: "Server error" });
                     }
-                    res.json({ liked: false, like_count: countResult[0].like_count });
+                    const Query = 'Select likes from showcases where showcase_id = ?';
+                        db.query(Query, [showcaseId], (err, Result) => {
+                            if (err) {
+                            console.error('Error fetching like count:', err);
+                            return res.status(500).json({ error: "Server error" });
+                        }
+                            res.json({ liked: false, like_count: Result[0].likes });
+                        });
                 });
             });
         } else {
@@ -47,14 +54,21 @@ router.post('/like-showcase', (req, res) => {
                 }
 
                 // Step 5: Get the updated like count
-                const likeCountQuery = 'SELECT COUNT(*) AS like_count FROM like_showcase WHERE showcase_id = ?';
+                const likeCountQuery = 'UPDATE showcases SET likes = likes+1 WHERE showcase_id = ?';
                 db.query(likeCountQuery, [showcaseId], (err, countResult) => {
                     if (err) {
                         console.error('Error fetching like count:', err);
                         return res.status(500).json({ error: "Server error" });
                     }
-                    res.json({ liked: true, like_count: countResult[0].like_count });
-                });
+                    const Query = 'Select likes from showcases where showcase_id = ?';
+                        db.query(Query, [showcaseId], (err, Result) => {
+                            if (err) {
+                            console.error('Error fetching like count:', err);
+                            return res.status(500).json({ error: "Server error" });
+                        } console.log(Result);
+                            res.json({ liked: true, like_count: Result[0].likes });
+                        });
+                    });
             });
         }
     });
@@ -87,13 +101,20 @@ router.post('/like-post', (req, res) => {
                 }
 
                 // Step 3: Get the updated like count
-                const likeCountQuery = 'SELECT COUNT(*) AS like_count FROM like_post WHERE post_id = ?';
+                const likeCountQuery = 'UPDATE posts SET likes = likes-1 WHERE post_id = ?';
                 db.query(likeCountQuery, [postId], (err, countResult) => {
                     if (err) {
                         console.error('Error fetching like count:', err);
                         return res.status(500).json({ error: "Server error" });
                     }
-                    res.json({ liked: false, like_count: countResult[0].like_count });
+                    const Query = 'Select likes from posts where post_id = ?';
+                    db.query(Query, [postId], (err, Result) => {
+                        if (err) {
+                        console.error('Error fetching like count:', err);
+                        return res.status(500).json({ error: "Server error" });
+                    } 
+                        res.json({ liked: false, like_count: Result[0].likes });
+                    });
                 });
             });
         } else {
@@ -106,13 +127,20 @@ router.post('/like-post', (req, res) => {
                 }
 
                 // Step 5: Get the updated like count
-                const likeCountQuery = 'SELECT COUNT(*) AS like_count FROM like_post WHERE post_id = ?';
+                const likeCountQuery = 'UPDATE posts SET likes = likes+1 WHERE post_id = ?';
                 db.query(likeCountQuery, [postId], (err, countResult) => {
                     if (err) {
                         console.error('Error fetching like count:', err);
                         return res.status(500).json({ error: "Server error" });
                     }
-                    res.json({ liked: true, like_count: countResult[0].like_count });
+                    const Query = 'Select likes from posts where post_id = ?';
+                    db.query(Query, [postId], (err, Result) => {
+                        if (err) {
+                        console.error('Error fetching like count:', err);
+                        return res.status(500).json({ error: "Server error" });
+                    } 
+                        res.json({ liked: true, like_count: Result[0].likes });
+                    });
                 });
             });
         }
