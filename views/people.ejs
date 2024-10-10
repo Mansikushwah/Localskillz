@@ -3,7 +3,7 @@
     <div class="container">
         <div class="searchContainer">
             <input type="text" id="peopleSkillSearch" placeholder="Search by skill...">
-            <input type="number" id="radiusInput" placeholder="Enter radius (km)" min="0" step="1">
+            <input type="number" id="radiusInput" placeholder="Enter radius (km)" min="0" step="0.1">
             <button id="searchButton">Search</button>
         </div>
 
@@ -26,7 +26,6 @@
     </div>
 </main>
 
-<!-- Footer Section -->
 <%- include("partials/footer") -%>
 <script src="/view_profile.js"></script>
 <script>
@@ -35,7 +34,7 @@
         const skill = document.getElementById('peopleSkillSearch').value.toLowerCase();
         const radius = document.getElementById('radiusInput').value; // Get the radius value
         // Fetch filtered data from the backend based on the entered skill and radius
-        const response = await fetch(`/people/search?skill=${skill}&radius=${radius}`);
+        const response = await fetch(`/people/search?skill=${encodeURIComponent(skill)}&radius=${encodeURIComponent(radius)}`);
         const html = await response.text();
         // Update the peopleContainer with the new filtered results
         document.getElementById('peopleContainer').innerHTML = html;

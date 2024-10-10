@@ -1,45 +1,13 @@
-<style>
-    .postItem {
-    position: relative; /* Allows absolute positioning of the button */
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 15px;
-    background-color: #f9f9f9;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-    max-width: 300px;
-}
 
-.removePost {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    background-color: #ff5c5c; /* Red background */
-    border: none;
-    color: white; /* White 'X' */
-    font-size: 18px;
-    padding: 5px 10px;
-    border-radius: 5px; /* Rounded rectangle */
-    cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.removePost:hover {
-    transform: scale(1.1); /* Slightly increases size on hover */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Adds shadow on hover */
-}
-
-</style>
 <div class="posts">
     <h3>Posts</h3>
         <div class="postGrid" id="postGrid">
             <% if (posts.length > 0) { %>
                 <% posts.forEach(post => { %>
                     <div class="postItem">
-                        <button class="removePost" data-post-id="<%= post.post_id %>">✖</button>
                         <h4><%= post.title %></h4>
                         <div><%= post.content %></div>
-                        
+                        <button class="removePost" data-post-id="<%= post.post_id %>">✖</button>
                     </div>
                 <% }) %>
             <% } else { %>
