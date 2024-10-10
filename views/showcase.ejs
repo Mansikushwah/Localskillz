@@ -133,7 +133,7 @@
                     <button class="likeBtn" data-showcase-id="<%= showcase.showcase_id %>" data-liked="<%= showcase.userLiked ? 'true' : 'false' %>">
                         <%= showcase.userLiked ? 'Unlike' : 'Like' %>
                     </button>
-                    <span class="likeCount" id="likeCount-<%= showcase.showcase_id %>">Likes: <%= showcase.likeCount %></span>
+                    <span class="likeCount" id="likeCount-<%= showcase.showcase_id %>">Likes: <%= showcase.like_count %></span>
                 </div>
             <% }) %>
         </div>
